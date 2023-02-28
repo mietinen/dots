@@ -27,11 +27,12 @@ fi
 
 # Some misc setup
 cd "$HOME" || exit
+umask 077
 mkdir -p "$HOME/.dotfiles"
 grep "^.dotfiles$" "$HOME/.gitignore" >/dev/null 2>&1 || echo ".dotfiles" >> "$HOME/.gitignore"
 
 for repo in "${git_repos[@]}"; do
-    read -rep "Clone $repo config repository? [y/N] " clone
+    read -rep "Clone $repo repository? [y/N] " clone
     [ "$clone" = "${clone#[Yy]}" ] && continue
     if [ -d "$HOME/.dotfiles/$repo" ] ; then
         echo "~/.dotfiles/$repo already exists, skipping."
@@ -46,5 +47,3 @@ for repo in "${git_repos[@]}"; do
     fi
     echo
 done
-
-# vim: set ts=4 sw=4 tw=0 et :

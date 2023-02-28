@@ -46,4 +46,4 @@ highlight article "\\[[0-9]+\\]"            color175    default     bold
 highlight article "\\[image\\ [0-9]+\\]"    color175    default     bold
 highlight feedlist "^─.*$"                  color108    default     bold
 
-# vim: set ft=config :
+# vim: set ft=conf :

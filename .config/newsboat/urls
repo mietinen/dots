@@ -13,4 +13,4 @@ http://www.digi.no/feeds/general.xml "~Digi.no"                                 
 https://www.archlinux.org/feeds/news/ "~ArchLinux news"                         tech linux
 https://www.wired.com/feed/category/security/latest/rss "~Wired - Security"     tech security
 
-# vim: set ft=config :
+# vim: set ft=conf :

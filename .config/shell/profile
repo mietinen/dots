@@ -4,11 +4,6 @@
 #
 
 # ------------------------------------------------------------------------------
-# Location, for weather block
-# ------------------------------------------------------------------------------
-export LOCATION="hammerfest"
-
-# ------------------------------------------------------------------------------
 # Adds `~/.local/bin` to $PATH
 # ------------------------------------------------------------------------------
 export PATH="$HOME/.local/bin${PATH:+:${PATH}}"
@@ -20,11 +15,6 @@ export EDITOR="nvim"
 export VISUAL="nvim"
 export TERMINAL="alacritty"
 export BROWSER="firefox"
-
-# ------------------------------------------------------------------------------
-# LS_COLORS (fix unreadable blue on green)
-# ------------------------------------------------------------------------------
-export LS_COLORS="ow=30;42"
 
 # ------------------------------------------------------------------------------
 # ~/ Clean-up
@@ -40,8 +30,11 @@ export GOPATH="${XDG_DATA_HOME:-$HOME/.local/share}/go"
 # ------------------------------------------------------------------------------
 # Misc
 # ------------------------------------------------------------------------------
+export LOCATION="hammerfest"    # weather block
+export LS_COLORS="ow=30;42"     # fix unreadable blue on green
 export LIBVIRT_DEFAULT_URI="qemu:///system"
 export ZK_NOTEBOOK_DIR="${XDG_DOCUMENTS_DIR:-$HOME/Documents}/notes"
+umask 027
 
 # ------------------------------------------------------------------------------
 # SSH AGENT

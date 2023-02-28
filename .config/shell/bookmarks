@@ -33,7 +33,8 @@ bm_files=(
     "${XDG_CONFIG_HOME:-$HOME/.config}/awesome/**"
     "${XDG_CONFIG_HOME:-$HOME/.config}/desktop/*"
     "${XDG_CONFIG_HOME:-$HOME/.config}/fontconfig/*"
-    "${XDG_CONFIG_HOME:-$HOME/.config}/mimeapps.list"
+    "${XDG_CONFIG_HOME:-$HOME/.config}/git/*"
+    "${XDG_CONFIG_HOME:-$HOME/.config}/lf/*"
     "${XDG_CONFIG_HOME:-$HOME/.config}/networkmanager-dmenu/*"
     "${XDG_CONFIG_HOME:-$HOME/.config}/newsboat/*"
     "${XDG_CONFIG_HOME:-$HOME/.config}/nvim/**"
@@ -41,5 +42,7 @@ bm_files=(
     "${XDG_CONFIG_HOME:-$HOME/.config}/rofi/*"
     "${XDG_CONFIG_HOME:-$HOME/.config}/shell/*"
     "${XDG_CONFIG_HOME:-$HOME/.config}/tmux/*"
+    "${XDG_CONFIG_HOME:-$HOME/.config}/zathura/*"
+    "${XDG_CONFIG_HOME:-$HOME/.config}/mimeapps.list"
     "$HOME/.ssh/*"
 )

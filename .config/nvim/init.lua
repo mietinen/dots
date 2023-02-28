@@ -147,7 +147,7 @@ end
 if lsp_ok then
     lsp_setup('gopls', {})
     lsp_setup('rust_analyzer', {})
-    -- lsp_setup('bashls', {})
+    lsp_setup('bashls', {})
     lsp_setup('pyright', {})
     lsp_setup('lua_ls', {
         settings = {

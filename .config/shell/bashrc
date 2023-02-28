@@ -46,6 +46,9 @@ bind 'set vi-ins-mode-string "\1\e[6 q\2"'
 # Bash completion
 # ------------------------------------------------------------------------------
 . /usr/share/bash-completion/bash_completion 2>/dev/null
+. /usr/share/bash-completion/completions/git 2>/dev/null
+__git_complete dgit __git_main 2>/dev/null
+__git_complete pgit __git_main 2>/dev/null
 
 # ------------------------------------------------------------------------------
 # Source custom stuff
