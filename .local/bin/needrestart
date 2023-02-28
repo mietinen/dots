@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+# Installed kernels in /boot
+ondisk="$(file /boot/vmlinuz* | sed 's/.*version \([^ ]*\)[ ]*.*/\1/')"
+# Current kernel running
+current="$(uname -r)"
+
+echo -n "Installed kernels: "
+echo "$ondisk" | sed ':a; N; $!ba; s/\n/, /g' | GREP_COLORS="ms=1;33" grep --color=always "^\|$current"
+
+if echo "$ondisk" | grep -q "^${current}$" ; then
+    echo "Current kernel is up to date: $current"
+else
+    echo "Current kernel: $current"
+    echo -e '\e[31mReboot required!\e[0m'
+fi

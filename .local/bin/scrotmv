@@ -1,0 +1,9 @@
+#!/bin/sh
+
+# XDG user dirs
+. "${XDG_CONFIG_HOME:-$HOME/.config}/user-dirs.dirs" 2>/dev/null
+folder="${XDG_PICTURES_DIR:-$HOME/Pictures}/scrot"
+
+xclip -selection clipboard -t image/png "$1"
+mkdir -p "$folder"
+mv "$1" "$folder"

@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+# Start/switch/attach tmux in a project directory
+
+if [ -d "$1" ]; then
+    sel="$1"
+else
+    sel="$(bookmarks dir "$1")"
+fi
+[ -d "$sel" ] || exit 0
+
+dir="$(readlink -f "$sel")"
+session="${dir##*/}"
+session="${session/./_}"
+
+# Old tmux stuff for Ubuntu
+[ "$(tmux -V | tr -cd "[:digit:]")" -lt 31 ] && \
+    file=("-f" "${XDG_CONFIG_HOME:-$HOME/.config}/tmux/tmux.conf")
+
+tmux "${file[@]}" new -c "$dir" -As "$session" 2>/dev/null && exit 0
+tmux "${file[@]}" new -c "$dir" -ds "$session" 2>/dev/null
+tmux "${file[@]}" switchc -t "$session" 2>/dev/null

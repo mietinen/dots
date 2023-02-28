@@ -1,0 +1,45 @@
+#!/usr/bin/env bash
+
+colors_big() {
+    printf "%-5s" ""
+    printf " %-4s" {40..47} "NA"
+    echo
+    for fg in {30..37}; do
+        num="$((fg - 30))"
+        for bold in {0..1}; do
+            if [ "$bold" = "0" ] ; then
+                printf "  %s " "$fg"
+                xrdbcolor="$num"
+            else
+                printf "%s;%s " "$bold" "$fg"
+                xrdbcolor="$((num + 8))"
+            fi
+            for bg in {40..47}; do
+                printf "\e[%s;%s;%sm %02d \e[0m " "$bold" "$fg" "$bg" "$xrdbcolor"
+            done
+            printf "\e[%s;%sm %02d \e[0m" "$bold" "$fg" "$xrdbcolor"
+            echo
+        done
+    done
+}
+
+colors_small() {
+    printf " %-4s" "" "BLK" "RED" "GRN" "YEL" "BLU" "MGN" "CYN" "WHT"
+    echo
+    printf "norm "
+    for col in {0..7}; do
+        printf '\e[3%dm\e[4%dm %02d  \e[0m' "$col" "$col" "$col"
+
+    done
+    echo
+    printf "brgt "
+    for col in {8..15}; do
+        printf '\e[38;5;%dm\e[48;5;%dm %02d  \e[0m' "$col" "$col" "$col"
+    done
+    echo
+}
+
+case $((RANDOM % 2)) in
+    1) colors_big ;;
+    *) colors_small ;;
+esac

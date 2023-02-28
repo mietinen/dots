@@ -1,0 +1,55 @@
+#!/bin/sh
+
+usage() {
+    echo "usage: ${0##*/} [OPTION] <NAME>"
+    echo "creates an executable script with shebang"
+    echo
+    echo "optional args:
+ -s, --shell        POSIX script (#!/bin/sh)
+ -b, --bash         BASH script (#!/usr/bin/env bash)
+ -p, --python       Python script (#!/usr/bin/env python)
+ -2, --python2      Python2 script (#!/usr/bin/env python2)
+ -3, --python3      Python3 script (#!/usr/bin/env python3)
+ -n, --node         Node.js script (#!/usr/bin/env node)
+     --perl         Perl script (#!/usr/bin/env perl)
+     --php          PHP script (#!/usr/bin/env php)
+ -r, --ruby         Ruby script(#!/usr/bin/env ruby)
+ -l, --lua          Lua script (#!/usr/bin/env luajit)
+
+default script is POSIX (#!/bin/sh)"
+}
+
+case "$1" in
+    -s | --shell)   shebang="#!/bin/sh" ; shift ;;
+    -b | --bash)    shebang="#!/usr/bin/env bash" ; shift ;;
+    -p | --python)  shebang="#!/usr/bin/env python" ; shift ;;
+    -2 | --python2) shebang="#!/usr/bin/env python2" ; shift ;;
+    -3 | --python3) shebang="#!/usr/bin/env python3" ; shift ;;
+    -n | --node)    shebang="#!/usr/bin/env node" ; shift ;;
+         --perl)    shebang="#!/usr/bin/env perl" ; shift ;;
+         --php)     shebang="#!/usr/bin/env php" ; shift ;;
+    -r | --ruby)    shebang="#!/usr/bin/env ruby" ; shift ;;
+    -l | --lua)     shebang="#!/usr/bin/env luajit" ; shift ;;
+    --) shift ;;
+    -*) usage ; exit 1 ;;
+esac
+
+[ -z "$shebang" ] && shebang="#!/bin/sh"
+
+if [ $# -eq 0 ]; then
+    usage
+    exit 1
+fi
+
+if [ -f "$1" ]; then
+    echo "${0##*/}: file '$1': already exist" 1>&2
+    exit 1
+fi
+
+if [ ! -d "$(dirname "$1")" ]; then
+    echo "${0##*/}: cannot access '$(dirname "$1")': No such directory" 1>&2
+    exit 1
+fi
+
+echo "$shebang" > "$1"
+chmod +x "$1"

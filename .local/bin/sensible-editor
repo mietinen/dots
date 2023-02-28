@@ -1,0 +1,7 @@
+#!/bin/sh
+# based on i3-sensible-editor
+for editor in "$VISUAL" "$EDITOR" nvim vim vi emacs nano pico gvim gedit mousepad; do
+    if command -v "$editor" >/dev/null; then
+        exec "$editor" "$@"
+    fi
+done

@@ -1,0 +1,58 @@
+#!/bin/sh
+#
+# ~/.profile
+#
+
+# ------------------------------------------------------------------------------
+# Location, for weather block
+# ------------------------------------------------------------------------------
+export LOCATION="hammerfest"
+
+# ------------------------------------------------------------------------------
+# Adds `~/.local/bin` to $PATH
+# ------------------------------------------------------------------------------
+export PATH="$HOME/.local/bin${PATH:+:${PATH}}"
+
+# ------------------------------------------------------------------------------
+# Default programs
+# ------------------------------------------------------------------------------
+export EDITOR="nvim"
+export VISUAL="nvim"
+export TERMINAL="alacritty"
+export BROWSER="firefox"
+
+# ------------------------------------------------------------------------------
+# LS_COLORS (fix unreadable blue on green)
+# ------------------------------------------------------------------------------
+export LS_COLORS="ow=30;42"
+
+# ------------------------------------------------------------------------------
+# ~/ Clean-up
+# ------------------------------------------------------------------------------
+export XINITRC="${XDG_CONFIG_HOME:-$HOME/.config}/desktop/xinitrc"
+export ZDOTDIR="${XDG_CONFIG_HOME:-$HOME/.config}/shell"
+export LESSHISTFILE="-"
+export GTK2_RC_FILES="${XDG_CONFIG_HOME:-$HOME/.config}/gtk-2.0/gtkrc"
+export ATOM_HOME="${XDG_DATA_HOME:-$HOME/.local/share}/atom"
+export TMUX_TMPDIR="$XDG_RUNTIME_DIR"
+export GOPATH="${XDG_DATA_HOME:-$HOME/.local/share}/go"
+
+# ------------------------------------------------------------------------------
+# Misc
+# ------------------------------------------------------------------------------
+export LIBVIRT_DEFAULT_URI="qemu:///system"
+export ZK_NOTEBOOK_DIR="${XDG_DOCUMENTS_DIR:-$HOME/Documents}/notes"
+
+# ------------------------------------------------------------------------------
+# SSH AGENT
+# ------------------------------------------------------------------------------
+agent_state=$(ssh-add -l >/dev/null 2>&1; echo $?)
+if [ -t 0 ] && [ -z "$SSH_AUTH_SOCK" ] && [ "$agent_state" -eq 2 ] && command -v ssh-agent >/dev/null; then
+    eval $(ssh-agent -s) >/dev/null
+    trap 'kill $SSH_AGENT_PID' EXIT
+fi
+
+# ------------------------------------------------------------------------------
+# Source bashrc
+# ------------------------------------------------------------------------------
+[ "$BASH" ] && . "${XDG_CONFIG_HOME:-$HOME/.config}/shell/bashrc" 2>/dev/null

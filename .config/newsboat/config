@@ -1,0 +1,49 @@
+# ------------------------------------------------------------------------------
+# settings
+# ------------------------------------------------------------------------------
+auto-reload yes
+max-items 200
+
+# ------------------------------------------------------------------------------
+# key bindings
+# ------------------------------------------------------------------------------
+bind-key j down
+bind-key k up
+bind-key j next articlelist
+bind-key k prev articlelist
+bind-key J next-feed articlelist
+bind-key K prev-feed articlelist
+bind-key G end
+bind-key g home
+bind-key d pagedown
+bind-key u pageup
+bind-key l open
+bind-key h quit
+bind-key a toggle-article-read
+bind-key n next-unread
+bind-key N prev-unread
+bind-key U show-urls
+
+# ------------------------------------------------------------------------------
+# colors
+# ------------------------------------------------------------------------------
+color background            color223    default
+color listnormal            color223    default
+color listnormal_unread     color142    default
+color listfocus             color223    color239
+color listfocus_unread      color106    color239
+color info                  color166    color237    bold
+color article               color223    default
+
+# ------------------------------------------------------------------------------
+# highlights
+# ------------------------------------------------------------------------------
+highlight article "^Feed:.*$"               color130    default     bold
+highlight article "^(Title|Date):.*$"       color72     default     bold
+highlight article "^(Author|Link):.*$"      color65     default     bold
+highlight article "https?://[^ ]+"          color175    default     underline
+highlight article "\\[[0-9]+\\]"            color175    default     bold
+highlight article "\\[image\\ [0-9]+\\]"    color175    default     bold
+highlight feedlist "^─.*$"                  color108    default     bold
+
+# vim: set ft=config :

@@ -1,0 +1,11 @@
+[user]
+	name = Aleksander Mietinen
+	email = aleksander@mietinen.net
+[diff]
+	tool = vimdiff
+[mergetool "vimdiff"]
+	path = nvim
+[pull]
+	rebase = false
+[alias]
+	lol = log --graph --pretty=format:'%C(auto)%h%d %C(cyan)(%ar) %C(green)%cn%C(auto) %s'

@@ -1,0 +1,48 @@
+#!/usr/bin/env bash
+
+usage() {
+    echo "usage: ${0##*/} [-c] [-q] <file>"
+    echo "universal extract tool for common archives"
+    echo
+    echo "options are:"
+    echo "   -c: create new directory for extraction"
+    echo "   -q: perform extraction quietly"
+}
+
+while getopts ":hcq" opt; do
+    case $opt in
+        c) create=true ;;
+        q) quiet=true ;;
+        *) usage ; exit 1;;
+    esac
+done
+shift $((OPTIND-1))
+
+file="$(realpath "$1")"
+
+# Check if file
+[ ! -f "$file" ] && echo "'$1' is not a valid file" && exit 1
+
+# Create new directory for extraction
+if [ -n "$create" ] ; then
+    dir="$(echo "${file%.*}" | sed 's/\.tar$//gI')"
+    mkdir "$dir" || exit 1
+    cd "$dir" || exit 1
+fi
+
+extract() {
+    case "${file,,}" in
+        *.tar | *.tar.* | *.tgz | *.tbz2)   tar xvf "$file" ;;
+        *.bz2)                              bunzip2 -v "$file" ;;
+        *.rar)                              unrar x "$file" ;;
+        *.gz)                               gunzip -v "$file" ;;
+        *.zip)                              unzip "$file" ;;
+        *.Z)                                uncompress -v "$file" ;;
+        *.7z | *.dmg | *.exe)               7z x "$file" ;;
+        *.deb)                              ar vx "$file" ;;
+        *.rpm)                              bsdtar -xvf "$file" ;;
+        *) echo "'$file' cannot be extracted via ${0##*/}" ;;
+    esac
+}
+
+[ -n "$quiet" ] && extract >/dev/null || extract

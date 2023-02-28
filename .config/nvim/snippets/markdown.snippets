@@ -1,0 +1,46 @@
+# Markdown
+
+snippet h1 "Heading 1"
+	# ${1:${VISUAL:Header}}
+
+	${0}
+snippet h2 "Heading 2"
+	## ${1:${VISUAL:Header}}
+
+	${0}
+snippet h3 "Heading 3"
+	### ${1:${VISUAL:Header}}
+
+	${0}
+snippet link "Link"
+	[${1:text}](${2:${VISUAL:https://www.url.com}})
+snippet img "Image"
+	![${1:text}](${2:${VISUAL:image.jpg}})
+snippet reflink "Reference Link"
+	[${1:text}][${2:id}]$0
+
+	[$2]: ${3:${VISUAL:https://www.url.com}}
+snippet refimg "Reference Image"
+	![${1:text}][${2:id}]$0
+
+	[$2]: ${3:${VISUAL:image.jpg}}
+snippet code "Code block"
+	\`\`\`${1}
+	${0:$VISUAL}
+	\`\`\`
+snippet gallery "Resized photo gallery with link to original"
+	{{ photo(gallery=true, maxwidth=${1:240}, maxheight=${2:180}) }}
+snippet photo "Resized photo with link to original"
+	{{ photo(path="${1:image.jpg}", maxwidth=${2:240}, maxheight=${3:180}) }}
+snippet +++ "Zola variables in TOML format"
+	+++
+	title = "${1}"
+	description = "${2}"
+	sort_by = "${3:weight}"
+	date = ${4:`strftime("%Y-%m-%d")`}
+	weight = ${5:10}
+
+	draft = false
+	extra.hidden = false
+	+++
+	${0}

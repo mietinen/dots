@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+# Mount points: server/mount
+mounts=(
+    strongbad/download
+    strongbad/harry
+    strongbad/media
+    strongbad/isos
+)
+
+command -v gio >/dev/null || exit
+sleep 5
+for mount in "${mounts[@]}" ; do
+    gio mount "smb://$mount" 2>/dev/null
+done

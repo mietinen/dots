@@ -1,0 +1,19 @@
+#!/bin/sh
+# Start/switch/attach tmux with irc client
+
+host="vps.mietinen.net"
+session="IRC"
+command="weechat"
+
+if [ "$host" != "$(uname -n)" ]; then
+    if [ -n "$TMUX" ]; then
+        tmux detach -E "ssh -t \"$host\" \"bash -l ${0##*/}\""
+    else
+        ssh -t "$host" "bash -l ${0##*/}"
+    fi
+    exit 0
+fi
+
+tmux new -As "$session" $command 2>/dev/null && exit 0
+tmux new -ds "$session" $command 2>/dev/null
+tmux switchc -t "$session" 2>/dev/null

@@ -1,0 +1,14 @@
+#!/usr/bin/env sh
+
+chosen=$(printf "Lock screen\nExit/logout\nSuspend\nReboot\nShutdown" | rofi -i -dmenu -sort -p "System exit")
+
+# Exit if none chosen.
+[ -z "$chosen" ] && exit
+
+case "$chosen" in
+    "Lock screen") light-locker-command --lock ;;
+    "Exit/logout") awesome-client 'awesome.quit()' >/dev/null 2>&1 ;;
+    "Suspend") systemctl suspend ;;
+    "Reboot") systemctl reboot ;;
+    "Shutdown") systemctl poweroff -i ;;
+esac
