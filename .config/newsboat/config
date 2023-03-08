@@ -2,6 +2,7 @@
 # settings
 # ------------------------------------------------------------------------------
 auto-reload yes
+reload-time 15
 max-items 200
 
 # ------------------------------------------------------------------------------
@@ -27,23 +28,22 @@ bind-key U show-urls
 # ------------------------------------------------------------------------------
 # colors
 # ------------------------------------------------------------------------------
-color background            color223    default
-color listnormal            color223    default
-color listnormal_unread     color142    default
-color listfocus             color223    color239
-color listfocus_unread      color106    color239
-color info                  color166    color237    bold
-color article               color223    default
+color background            default     default
+color listnormal            default     default
+color listnormal_unread     color2      default
+color listfocus             default     color237
+color listfocus_unread      color10     color237
+color info                  color166    color0    bold
+color article               default     default
 
-# ------------------------------------------------------------------------------
 # highlights
-# ------------------------------------------------------------------------------
-highlight article "^Feed:.*$"               color130    default     bold
-highlight article "^(Title|Date):.*$"       color72     default     bold
-highlight article "^(Author|Link):.*$"      color65     default     bold
-highlight article "https?://[^ ]+"          color175    default     underline
-highlight article "\\[[0-9]+\\]"            color175    default     bold
-highlight article "\\[image\\ [0-9]+\\]"    color175    default     bold
-highlight feedlist "^─.*$"                  color108    default     bold
+highlight article "^(Feed|Title):.*$"           color10     default     bold
+highlight article "^(Date|Author):.*$"          color2      default
+highlight article "^Link:.*$"                   color3      default
+highlight article "^Podcast Download URL:.*$"   color3      default
+highlight article "https?://[^ ]+"              color13     default     underline
+highlight article "\\[[0-9]+\\]"                color5      default     bold
+highlight article "\\[image\\ [0-9]+(| .*)\\]"  color5      default     bold
+highlight feedlist "^─.*$"                      color14     default     bold
 
 # vim: set ft=conf :

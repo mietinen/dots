@@ -1,16 +1,13 @@
 # ------------------------------------------------------------------------------
 # urls: rss, atom
 # ------------------------------------------------------------------------------
-https://www.nrk.no/nyheter/siste.rss "~NRK.no nyheter"                          norway
-https://www.nrk.no/tromsogfinnmark/siste.rss "~NRK.no Troms og Finnmark"        norway
-https://hammerfestingen.no/atom.xml "~Hammerfestingen"                          norway
-https://www.tv2.no/rest/cms-feeds-dw-rest/v2/cms/article/ "~TV2.no nyheter"     norway
-https://services.dn.no/api/feed/rss/ "~Dagens næringsliv"                       norway
-http://feeds.bbci.co.uk/news/world/rss.xml "~BBC News - World"                  world
-http://rss.cnn.com/rss/edition_world.rss  "~CNN.com - World"                    world
-http://feeds.washingtonpost.com/rss/world "~Washington Post - World"            world
-http://www.digi.no/feeds/general.xml "~Digi.no"                                 tech norway
-https://www.archlinux.org/feeds/news/ "~ArchLinux news"                         tech linux
-https://www.wired.com/feed/category/security/latest/rss "~Wired - Security"     tech security
+https://www.nrk.no/nyheter/siste.rss "~NRK.no nyheter"                      norway
+https://www.nrk.no/tromsogfinnmark/siste.rss "~NRK.no Troms og Finnmark"    norway
+https://hammerfestingen.no/atom.xml "~Hammerfestingen"                      norway
+https://www.tv2.no/rest/cms-feeds-dw-rest/v2/cms/article/ "~TV2.no nyheter" norway
+https://services.dn.no/api/feed/rss/ "~Dagens næringsliv"                   norway
+http://www.digi.no/feeds/general.xml "~Digi.no"                             tech norway
+https://www.archlinux.org/feeds/news/ "~ArchLinux news"                     tech linux
+https://hnrss.org/frontpage "~Hacker News"                                  tech
 
 # vim: set ft=conf :
