@@ -34,7 +34,7 @@ end)
 -- -----------------------------------------------------------------------------
 -- Settings
 -- -----------------------------------------------------------------------------
-vim.cmd('syntax on')
+vim.cmd.syntax('on')
 vim.opt.go = 'a'
 vim.opt.encoding = 'utf-8'
 vim.opt.mouse = 'niv'
@@ -93,24 +93,24 @@ function applycolorscheme(color)
     color = color or ''
     if vim.fn.globpath(vim.o.runtimepath, 'colors/'..color..'.vim')
     .. vim.fn.globpath(vim.o.runtimepath, 'colors/'..color..'.lua') == '' then
-        vim.cmd.highlight("clear SignColumn")
-        vim.cmd.highlight("LineNR ctermfg=Grey")
-        vim.cmd.highlight("ColorColumn ctermbg=Black")
-        vim.cmd.highlight("NonText ctermfg=DarkGrey")
-        vim.cmd.highlight("Pmenu ctermbg=Black ctermfg=Grey")
-        vim.cmd.highlight("PmenuSel ctermbg=Cyan ctermfg=Black")
-        vim.cmd.highlight("SpellBad ctermbg=NONE ctermfg=NONE cterm=underline")
-        vim.cmd.highlight("SpellCap ctermbg=NONE ctermfg=NONE cterm=underline")
-        vim.cmd.highlight("CursorLine ctermbg=Black cterm=NONE")
-        vim.cmd.highlight("CursorLineNR ctermbg=Black cterm=NONE")
-        vim.cmd.highlight("link markdownCode PreProc")
+        vim.cmd.highlight('clear SignColumn')
+        vim.cmd.highlight('LineNR ctermfg=Grey')
+        vim.cmd.highlight('ColorColumn ctermbg=Black')
+        vim.cmd.highlight('NonText ctermfg=DarkGrey')
+        vim.cmd.highlight('Pmenu ctermbg=Black ctermfg=Grey')
+        vim.cmd.highlight('PmenuSel ctermbg=Cyan ctermfg=Black')
+        vim.cmd.highlight('SpellBad ctermbg=NONE ctermfg=NONE cterm=underline')
+        vim.cmd.highlight('SpellCap ctermbg=NONE ctermfg=NONE cterm=underline')
+        vim.cmd.highlight('CursorLine ctermbg=Black cterm=NONE')
+        vim.cmd.highlight('CursorLineNR ctermbg=Black cterm=NONE')
+        vim.cmd.highlight('link markdownCode PreProc')
     else
         vim.g.gruvbox_contrast_dark = 'hard'
         vim.g.gruvbox_sign_column = 'none'
         vim.cmd.colorscheme(color)
     end
     vim.g.lightline = { colorscheme = vim.g.colors_name or 'default' }
-    vim.cmd.highlight("Normal guibg=NONE ctermbg=NONE")
+    vim.cmd.highlight('Normal guibg=NONE ctermbg=NONE')
 end
 applycolorscheme()
 
@@ -122,16 +122,20 @@ vim.cmd('command! -nargs=* Run :!%:p <args>')
 -- -----------------------------------------------------------------------------
 -- Autocmd
 -- -----------------------------------------------------------------------------
-vim.cmd [[
-augroup FileTypeStuff
-    autocmd!
-    autocmd FileType * set formatoptions-=o
-    autocmd FileType text,markdown setlocal wrap linebreak spell
-    autocmd FileType php setlocal commentstring=//\ %s
-    autocmd FileType xdefaults setlocal commentstring=!\ %s
-    autocmd FileType htmldjango setlocal commentstring={#\ %s\ #}
-augroup END
-]]
+local ft = vim.api.nvim_create_augroup('FTStuff', { clear = true })
+vim.api.nvim_create_autocmd('FileType', {
+    group = ft,
+    callback = function(args)
+        local m = args.match
+        if m == 'markdown' then vim.cmd.setlocal('wrap linebreak spell')
+        elseif m == 'text' then vim.cmd.setlocal('wrap linebreak spell')
+        elseif m == 'php' then vim.cmd.setlocal('commentstring=//%s')
+        elseif m == 'xdefaults' then vim.cmd.setlocal('commentstring=!%s')
+        elseif m == 'htmldjango' then vim.cmd.setlocal('commentstring={#%s#}')
+        end
+        vim.cmd.set('formatoptions-=o foldmethod=manual')
+    end
+})
 
 -- -----------------------------------------------------------------------------
 -- nvim-lspconfig
@@ -175,9 +179,9 @@ if cmp_ok then
             end,
         },
         mapping = cmp.mapping.preset.insert({
-            ["<C-u>"] = cmp.mapping.scroll_docs(-4),
-            ["<C-d>"] = cmp.mapping.scroll_docs(4),
-            ["<C-Space>"] = cmp.mapping.complete(),
+            ['<C-u>'] = cmp.mapping.scroll_docs(-4),
+            ['<C-d>'] = cmp.mapping.scroll_docs(4),
+            ['<C-Space>'] = cmp.mapping.complete(),
             ['<CR>'] = cmp.mapping.confirm({ select = false }),
         }),
         sources = cmp.config.sources({
@@ -222,7 +226,7 @@ end
 -- -----------------------------------------------------------------------------
 local zk_ok, zk = pcall(require, 'zk')
 if zk_ok then
-    zk.setup({picker = "telescope"})
+    zk.setup({picker = 'telescope'})
     vim.keymap.set('n', '<leader>zn', '<Cmd>ZkNew { title = vim.fn.input("Title: ") }<CR>', {silent = true})
     vim.keymap.set('n', '<leader>zf', '<Cmd>ZkNotes { sort = { "modified" } }<CR>', {silent = true})
 end
