@@ -1,0 +1,51 @@
+#!/usr/bin/env bash
+
+git_url_ssh="git@github.com:mietinen"
+git_url_https="https://github.com/mietinen"
+git_repos=("dots" "private")
+
+# check if git is installed
+if ! command -v git >/dev/null; then
+    echo "Git is not installed, exiting"
+    exit 1
+fi
+
+# Use ssh instead of https?
+command -v ssh-keygen >/dev/null && read -rep "Use ssh instead of https? [y/N] " usessh
+
+if [ "$usessh" != "${usessh#[Yy]}" ]; then
+    # Generate SSH key if it doesn't exist
+    [ -f ~/.ssh/id_ed25519.pub ] || ssh-keygen -a 100 -t ed25519 -f ~/.ssh/id_ed25519
+    echo "Copy SSH key and add you your git remote and press enter to continue."
+    command -v xclip >/dev/null && xclip -sel clip < ~/.ssh/id_ed25519.pub
+    cat ~/.ssh/id_ed25519.pub
+    read -r
+    giturl="$git_url_ssh"
+else
+    giturl="$git_url_https"
+fi
+
+# Some misc setup
+cd "$HOME" || exit
+umask 077
+dotdir="${XDG_DATA_HOME:-$HOME/.local/share}/dotfiles"
+mkdir -p "$dotdir"
+grep "^${dotdir/#$HOME\/}$" "$HOME/.gitignore" >/dev/null 2>&1 || \
+    echo "${dotdir/#$HOME\/}" >> "$HOME/.gitignore"
+
+for repo in "${git_repos[@]}"; do
+    read -rep "Clone $repo repository? [y/N] " clone
+    [ "$clone" = "${clone#[Yy]}" ] && continue
+    if [ -d "$dotdir/$repo" ] ; then
+        echo "${dotdir/#$HOME/\~}/$repo already exists, skipping."
+    else
+        git clone --bare "$giturl/$repo.git" "$dotdir/$repo"
+        git --git-dir="$dotdir/$repo" --work-tree="$HOME" config --local status.showUntrackedFiles no
+        git --git-dir="$dotdir/$repo" --work-tree="$HOME" config --local remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"
+        git --git-dir="$dotdir/$repo" --work-tree="$HOME" checkout 2>&1 | grep -E "\s+\." | awk '{print $1}' | xargs -I{} rm -f "{}"
+        git --git-dir="$dotdir/$repo" --work-tree="$HOME" checkout
+        git --git-dir="$dotdir/$repo" --work-tree="$HOME" fetch
+        git --git-dir="$dotdir/$repo" --work-tree="$HOME" branch --set-upstream-to=origin/master master
+    fi
+    echo
+done

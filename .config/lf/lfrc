@@ -1,0 +1,15 @@
+set drawbox true
+set ignorecase true
+
+map <delete> delete
+map D delete
+map . set hidden!
+map b bookmark
+
+cmd open $$OPENER "$f"
+cmd bookmark ${{
+    b="$(bookmarks dir)"
+    [ -d "$b" ] && lf -remote "send $id cd \"$b\"" || exit 0
+}}
+
+# vim: set ft=conf :

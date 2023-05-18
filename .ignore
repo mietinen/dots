@@ -1,0 +1,18 @@
+# rg/ag ignore
+*-errors
+*_history
+.ICAClient
+.config/shell/.zcompdump
+
+.cargo/
+.cache/
+.mozilla/
+.npm/
+.config/discord/
+.config/chromium/
+.config/google-chrome/
+.config/libreoffice/
+.local/share/*
+!.local/share/applications/
+.local/state/
+Documents/git_clones/

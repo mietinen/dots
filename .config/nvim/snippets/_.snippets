@@ -1,0 +1,26 @@
+# Global snippets
+
+snippet cmt
+	`substitute(substitute(&cms, '\s*%s\s*', ' '.repeat('-', 80 - strlen(substitute(&cms, '\s*%s\s*', '%s', ''))).' ', ''), ' $', '-', '')`
+	`substitute(&cms, '^\(\S*\)\s*%s\s*\(\S*\)$', '\1 ', '')`${1:$VISUAL}`substitute(substitute(&cms, '^\(\S*\)\s*%s\s*\(\S*\)$', ' \2', ''), '\s*$', '', '')`
+	`substitute(substitute(&cms, '\s*%s\s*', ' '.repeat('-', 80 - strlen(substitute(&cms, '\s*%s\s*', '%s', ''))).' ', ''), ' $', '-', '')`
+snippet modeline
+	`substitute(substitute(&cms, '\s*%s\s*', ' '.printf('vim: set ts=%d sw=%d tw=%d %set ft=%s :', &ts, &sw, &tw, &et ? '' : 'no', &ft).' ', ''), '\s*$', '', '')`
+snippet modeline-tab
+	`substitute(substitute(&cms, '\s*%s\s*', ' '.printf('vim: set ts=%d sw=%d tw=%d %set :', &ts, &sw, &tw, &et ? '' : 'no').' ', ''), '\s*$', '', '')`
+snippet modeline-ft
+	`substitute(substitute(&cms, '\s*%s\s*', ' '.printf('vim: set ft=%s :', &ft).' ', ''), '\s*$', '', '')`
+snippet c)
+	Copyright `&enc[:2] == "utf" ? "©" : "(c)"` `strftime("%Y")` ${1:Author}. All Rights Reserved.
+snippet date
+	`strftime("%Y-%m-%d")`
+snippet ddate
+	`strftime("%B %d, %Y")`
+snippet diso
+	`strftime("%Y-%m-%dT%H:%M:%S")`
+snippet time
+	`strftime("%H:%M")`
+snippet datetime
+	`strftime("%Y-%m-%d %H:%M")`
+snippet lorem
+	Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.

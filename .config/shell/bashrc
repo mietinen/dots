@@ -1,0 +1,57 @@
+#!/usr/bin/env bash
+#
+# ~/.bashrc
+#
+
+# ------------------------------------------------------------------------------
+# If not running interactively, don't do anything
+# ------------------------------------------------------------------------------
+[[ $- != *i* ]] && return
+
+# ------------------------------------------------------------------------------
+# Shell options
+# ------------------------------------------------------------------------------
+complete -cf sudo
+shopt -s checkwinsize
+shopt -s expand_aliases
+shopt -s cmdhist
+shopt -s histreedit
+shopt -s histappend
+shopt -s histverify
+stty -ixon
+
+export HISTCONTROL=ignoreboth
+export HISTSIZE=5000
+export HISTFILESIZE=5000
+export HISTFILE="${XDG_STATE_HOME:-$HOME/.local/state}/bash/history"
+mkdir -p "${HISTFILE%/*}"
+
+# ------------------------------------------------------------------------------
+# Simple fallback PS1
+# ------------------------------------------------------------------------------
+PS1="\[\e[01;36m\]\w\[\e[01;31m\] >\[\e[0m\] "
+
+# ------------------------------------------------------------------------------
+# Vi mode
+# ------------------------------------------------------------------------------
+set -o vi
+bind -m vi-command ".":yank-last-arg
+bind -m vi-insert "\C-l.":clear-screen
+bind 'set keyseq-timeout 1'
+bind 'set show-mode-in-prompt on'
+bind 'set vi-cmd-mode-string "\1\e[2 q\2"'
+bind 'set vi-ins-mode-string "\1\e[6 q\2"'
+
+# ------------------------------------------------------------------------------
+# Bash completion
+# ------------------------------------------------------------------------------
+. /usr/share/bash-completion/bash_completion 2>/dev/null
+. /usr/share/bash-completion/completions/git 2>/dev/null
+__git_complete dots __git_main 2>/dev/null
+__git_complete privs __git_main 2>/dev/null
+
+# ------------------------------------------------------------------------------
+# Source custom stuff
+# ------------------------------------------------------------------------------
+. "${XDG_CONFIG_HOME:-$HOME/.config}/shell/aliasrc" 2>/dev/null
+. "${XDG_CONFIG_HOME:-$HOME/.config}/shell/promptrc" 2>/dev/null

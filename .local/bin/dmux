@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+# Start/switch/attach tmux in a project directory
+# with source-file .dmuxrc
+
+if [ -d "$1" ]; then
+    sel="$1"
+else
+    sel="$(bookmarks dir "$1")"
+fi
+[ -d "$sel" ] || exit 0
+
+dir="$(readlink -f "$sel")"
+session="${dir##*/}"
+session="${session/./_}"
+
+if ! tmux has-session -t "$session" 2>/dev/null; then
+    cd "$dir" || exit 1
+    tmux new-session -ds "$session" 2>/dev/null
+    tmux attach-session -t "$session" \; source-file -q ".dmuxrc" 2>/dev/null && exit 0
+    tmux switch-client -t "$session" \; source-file -q ".dmuxrc" 2>/dev/null
+    exit 0
+fi
+
+tmux attach-session -t "$session" 2>/dev/null && exit 0
+tmux switch-client -t "$session"  2>/dev/null

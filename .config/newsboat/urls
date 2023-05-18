@@ -1,0 +1,17 @@
+# ------------------------------------------------------------------------------
+# query
+# ------------------------------------------------------------------------------
+"query:Unread - All:unread = \"yes\""
+"query:Unread - Tech:(unread = \"yes\") and (tags # \"tech\")"
+"query:Unread - Linux:(unread = \"yes\") and (tags # \"linux\")"
+# "query:Unread - Youtube:unread = \"yes\" and tags # \"youtube\""
+
+# ------------------------------------------------------------------------------
+# urls: rss, atom
+# ------------------------------------------------------------------------------
+http://www.digi.no/feeds/general.xml    "~Digi.no"              tech
+https://hnrss.org/frontpage             "~Hacker News"          tech
+https://www.archlinux.org/feeds/news/   "~ArchLinux news"       linux
+https://www.phoronix.com/rss.php        "~Phoronix"             linux
+
+# vim: set ft=conf :

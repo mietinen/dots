@@ -1,0 +1,44 @@
+#!/usr/bin/env bash
+
+# ------------------------------------------------------------------------------
+# Set colorful PS1
+# ------------------------------------------------------------------------------
+__ps1() {
+    # default colors
+    if test -n "${ZSH_VERSION}"; then
+        local cr="%B%F{red}" cg="%B%F{green}" cy="%B%F{yellow}"
+        local cb="%B%F{blue}" cm="%B%F{magenta}" cc="%B%F{cyan}"
+        local cw="%B%F{white}" reset="%f%b"
+        local u='%n' h='%m' w='%~' p='%#'
+    else
+        local cr='\[\e[01;31m\]' cg='\[\e[01;32m\]' cy='\[\e[01;33m\]'
+        local cb='\[\e[01;34m\]' cm='\[\e[01;35m\]' cc='\[\e[01;36m\]'
+        local cw='\[\e[01;37m\]' reset='\[\e[0m\]'
+        local u='\u' h='\h' w='\w' p='\$'
+    fi
+    # main color (blue)
+    local c="$cb"
+    # root/user
+    if [ $EUID -eq 0 ]; then
+        local user="$cr$u$c"
+        local prompt="$cr$p$c"
+    else
+        local user="$cg$u$c"
+        local prompt="$cg$p$c"
+    fi
+    # ssh/local hostname
+    if [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ] || [ -n "$SSH_CONNECTION" ]; then
+        local host="$cy$h$c"
+    else
+        local host="$cg$h$c"
+    fi
+    # path
+    local path="$cc$w$c"
+    # git
+    local git="$cm\$(git branch --show-current 2>/dev/null | sed 's/\(.*\)/ (\1)/')$c"
+    # PS1
+    echo "$c┌[$user@$host $path$git]"
+    echo "$c└─$prompt $reset"
+}
+
+PS1="$(__ps1)"

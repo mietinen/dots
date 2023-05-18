@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+
+# ------------------------------------------------------------------------------
+# Commands to autorun on desktop start
+# ------------------------------------------------------------------------------
+autorun=(
+    "/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1"
+    "picom"
+    "nitrogen --restore"
+    "xset s 600 60 dpms 900 1050 1200"
+    "light-locker --no-late-locking --lock-on-suspend --lock-on-lid --idle-hint"
+    "syncthing -no-browser"
+    "gioautomount"
+    "discord"
+)
+
+# ------------------------------------------------------------------------------
+# Run loop: some checks and execute
+# ------------------------------------------------------------------------------
+for run in "${autorun[@]}" ; do
+    command -v "${run%% *}" || continue
+    pgrep -fu "$(whoami)" "${run%% *}" || setsid -f $run
+done

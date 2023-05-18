@@ -1,0 +1,48 @@
+#!/usr/bin/env bash
+
+# ------------------------------------------------------------------------------
+# XDG user dirs
+# ------------------------------------------------------------------------------
+. "${XDG_CONFIG_HOME:-$HOME/.config}/user-dirs.dirs" 2>/dev/null
+
+# ------------------------------------------------------------------------------
+# Directories (cd and dmux)
+# ------------------------------------------------------------------------------
+bm_dirs=(
+    "$HOME"
+    "${XDG_DOCUMENTS_DIR:-$HOME/Documents}"
+    "${XDG_DOCUMENTS_DIR:-$HOME/Documents}/*"
+    "${XDG_DOCUMENTS_DIR:-$HOME/Documents}/code/*"
+    "${XDG_DOWNLOAD_DIR:-$HOME/Downloads}"
+    "${XDG_MUSIC_DIR:-$HOME/Music}"
+    "${XDG_PICTURES_DIR:-$HOME/Pictures}"
+    "${XDG_PICTURES_DIR:-$HOME/Pictures}/*"
+    "${XDG_VIDEOS_DIR:-$HOME/Videos}"
+    "${XDG_CONFIG_HOME:-$HOME/.config}"
+    # "${XDG_CONFIG_HOME:-$HOME/.config}/*"
+    "$HOME/.local/bin"
+    "/run/media/$(whoami)/*"
+    "/run/user/$(id -u)/gvfs/*"
+)
+
+# ------------------------------------------------------------------------------
+# Config files (opens with $EDITOR/sensible-editor)
+# ------------------------------------------------------------------------------
+bm_files=(
+    "${XDG_CONFIG_HOME:-$HOME/.config}/alacritty/**"
+    "${XDG_CONFIG_HOME:-$HOME/.config}/awesome/**"
+    "${XDG_CONFIG_HOME:-$HOME/.config}/desktop/*"
+    "${XDG_CONFIG_HOME:-$HOME/.config}/fontconfig/*"
+    "${XDG_CONFIG_HOME:-$HOME/.config}/git/*"
+    "${XDG_CONFIG_HOME:-$HOME/.config}/lf/*"
+    "${XDG_CONFIG_HOME:-$HOME/.config}/networkmanager-dmenu/*"
+    "${XDG_CONFIG_HOME:-$HOME/.config}/newsboat/*"
+    "${XDG_CONFIG_HOME:-$HOME/.config}/nvim/**"
+    "${XDG_CONFIG_HOME:-$HOME/.config}/picom/*"
+    "${XDG_CONFIG_HOME:-$HOME/.config}/rofi/*"
+    "${XDG_CONFIG_HOME:-$HOME/.config}/shell/*"
+    "${XDG_CONFIG_HOME:-$HOME/.config}/tmux/*"
+    "${XDG_CONFIG_HOME:-$HOME/.config}/zathura/*"
+    "${XDG_CONFIG_HOME:-$HOME/.config}/mimeapps.list"
+    "$HOME/.ssh/*"
+)

@@ -1,0 +1,64 @@
+#!/bin/sh
+
+# ------------------------------------------------------------------------------
+# Dotfiles
+# ------------------------------------------------------------------------------
+alias   dots='git --git-dir="${XDG_DATA_HOME:-$HOME/.local/share}/dotfiles/dots" --work-tree="$HOME"' \
+        lazydots='lazygit --git-dir="${XDG_DATA_HOME:-$HOME/.local/share}/dotfiles/dots" --work-tree="$HOME"'
+
+alias   privs='git --git-dir="${XDG_DATA_HOME:-$HOME/.local/share}/dotfiles/private" --work-tree="$HOME"' \
+        lazyprivs='lazygit --git-dir="${XDG_DATA_HOME:-$HOME/.local/share}/dotfiles/private" --work-tree="$HOME"'
+
+# ------------------------------------------------------------------------------
+# Use neovim > vim > vi
+# ------------------------------------------------------------------------------
+command -v nvim >/dev/null && alias vim='nvim' vimdiff='nvim -d'
+command -v vim >/dev/null && alias vi='vim'
+
+# ------------------------------------------------------------------------------
+# Package stuff
+# ------------------------------------------------------------------------------
+alias   pactable='expac -Q -H M --timefmt="%Y-%m-%d %T" "%l  %-12w  %-15m  %n (%v)"' \
+        pacdate='pactable | sort -n' \
+        pacsize='pactable | sort -hk 4' \
+        pacdep='expac -Q "%-25n\t%D"' \
+        pacclean='sudo pacman -Rnsu $(pacman -Qtdq)' \
+        updmirror='reflector -a 48 -c no,se,dk,fi,de,nl,be,fr,pl,at,gb -p https --sort country | sudo tee /etc/pacman.d/mirrorlist'
+
+# ------------------------------------------------------------------------------
+# Add colors
+# ------------------------------------------------------------------------------
+alias   ls='ls -hN --color=auto --group-directories-first' \
+        grep='grep --colour=auto' \
+        egrep='egrep --colour=auto' \
+        fgrep='fgrep --colour=auto' \
+        diff='diff --color=auto' \
+        ip='ip --color=auto'
+
+# ------------------------------------------------------------------------------
+# Stuff
+# ------------------------------------------------------------------------------
+alias   cp='cp -i' \
+        df='df -h' \
+        du='du -h' \
+        e='$EDITOR' \
+        v='$VISUAL' \
+        open='xdg-open' \
+        sudovimdiff='SUDO_EDITOR="nvim -d" sudoedit' \
+        notes='zk edit --interactive --sort modified' \
+        wget='curl -OJLR' \
+        nettfart='speedtest -s 20209' \
+        xod='od --endian=big -t x2z' \
+        newsboat='newsboat -q'
+
+# ------------------------------------------------------------------------------
+# Directories and config shortcuts
+# ------------------------------------------------------------------------------
+cdf() {
+    b="$(bookmarks dir "$1")"
+    [ -d "$b" ] && cd "$b"
+}
+cff() {
+    b="$(bookmarks file "$1")"
+    [ -f "$b" ] && sensible-editor "$b"
+}

@@ -1,0 +1,12 @@
+#!/usr/bin/env sh
+
+chosen=$(man -k . | awk '{ print $1 }' | rofi -i -dmenu -sort -p "Select man page")
+
+# Exit if none chosen.
+[ -z "$chosen" ] && exit
+
+tempfile=$(mktemp)
+# man -Tpdf $chosen | cat - > "$tempfile"
+man -Tpdf $chosen > "$tempfile"
+zathura "$tempfile"
+rm -f "$tempfile"

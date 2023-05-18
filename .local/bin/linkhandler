@@ -1,0 +1,18 @@
+#!/bin/sh
+
+# Open feed links in preferred software
+case "$1" in
+	*.mkv|*.webm|*.mp4|*youtube.com/watch*|*youtube.com/playlist*|*youtube.com/shorts*|*youtu.be*)
+		setsid -f mpv -quiet "$1" >/dev/null 2>&1 ;;
+	*)
+        mime="$(curl -Isw '%{content_type}' -o /dev/null "$1" | sed 's/[; ].*//')"
+        case "$(xdg-mime query default "$mime" 2>/dev/null)" in
+            mpv.desktop)
+                setsid -f mpv -quiet "$1" >/dev/null 2>&1 ;;
+            imv.desktop|*.zathura.desktop)
+                tmp="$(mktemp)"
+                curl -sLo "$tmp" "$1" && setsid -f xdg-open "$tmp" >/dev/null 2>&1 ;;
+            *)
+                setsid -f xdg-open "$1" >/dev/null 2>&1
+        esac
+esac &

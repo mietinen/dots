@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+# Test multiple http/https connections, sort by time to load
+#
+# Examples: url-test https://url.com https://url2.org ..
+#           cat list.txt | url-test
+
+if [ $# -ne 0 ]; then
+    urls=("$@")
+elif test -p /dev/stdin; then
+    mapfile -t urls
+else
+    echo "Usage: ${0##*/} <urls>"
+    echo "Test multiple http/https connections, sort by time to load."
+    echo
+    echo "Examples: ${0##*/} https://url.com https://url2.org .."
+    echo "          cat list.txt | ${0##*/}"
+    exit 0
+fi
+
+echo "Test multiple http(s) connections, sort by time to load"
+echo
+
+output=""
+for h in "${urls[@]}"; do
+    time=$(curl -Lkso /dev/null --connect-timeout 5 -w "%{time_connect} %{time_starttransfer} %{time_total}" "$h")
+    if [ $? -eq 0 ] ; then
+        output="${output:+${output}\n}$h $time"
+    else
+        output="${output:+${output}\n}$h FAILED FAILED FAILED"
+    fi
+done
+(echo "URL Connect Start Total" ; (echo -e "$output" | sort -k4)) | column -t

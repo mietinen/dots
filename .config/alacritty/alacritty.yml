@@ -1,0 +1,21 @@
+env: 
+  WINIT_X11_SCALE_FACTOR: '1'
+window:
+  dynamic_title: false
+  opacity: 0.9
+font:
+  size: 10
+colors:
+  cursor:
+    text:   CellBackground
+    cursor: CellForeground
+  vi_mode_cursor:
+    text:   CellBackground
+    cursor: CellForeground
+  selection:
+    text:       CellBackground
+    background: CellForeground
+
+# Import color scheme
+import:
+  - ~/.config/alacritty/themes/gruvbox-dark-hard.yml

@@ -1,0 +1,17 @@
+#!/usr/bin/env sh
+
+MAXVOL=120
+NUM="${2:-5}"
+
+case "$1" in
+    mute)       pamixer -m ;;
+    toggle)     pamixer -t ;;
+    togglemic)  pamixer --default-source -t ;;
+    up)         pamixer --allow-boost -i "$NUM"
+                [ "$(pamixer --get-volume)" -gt "$MAXVOL" ] && \
+                pamixer --allow-boost --set-volume "$MAXVOL" ;;
+    down)       pamixer --allow-boost -d "$NUM" ;;
+    get)        echo "$(pamixer --get-volume)% $([ "$(pamixer --get-mute)" = "true" ] && echo "[off]")" ;;
+    control)    if command -v pavucontrol >/dev/null ; then pavucontrol
+                else sensible-terminal -e pulsemixer ; fi ;;
+esac

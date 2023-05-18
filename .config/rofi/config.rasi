@@ -1,0 +1,4 @@
+configuration {
+ font: "monospace 10";
+}
+@theme "gruvbox-dark-hard"

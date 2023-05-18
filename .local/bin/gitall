@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+# gitall: search for git repositories and run git fetch/status
+
+usage() {
+    echo "usage: ${0##*/} <arguments>"
+    echo "    -f  git fetch - for all found repositories"
+    echo "    -s  git status - for repositories with changes"
+    echo "    -a  if combined with status, print all found repositories"
+    exit
+}
+
+while getopts ":afs" opt; do
+    case $opt in
+        a) statusall=true ;;
+        f) fetch=true run=true ;;
+        s) status=true run=true ;;
+        *) usage ;;
+    esac
+done
+shift $((OPTIND-1))
+
+# need fetch or status to run
+[ "$run" = true ] || usage
+
+find "$PWD" ! -path '*/.*/*' -a -name .git -type d | while read -r d; do
+    # git fetch
+    [ "$fetch" = true ] && git --git-dir="$d" fetch -q
+
+    # git status
+    if [ "$status" = true ]; then
+        w="${d%/.git*}"
+        git="$(git --git-dir="$d" --work-tree="$w" -c color.status=always status -sb)"
+        if [ "$statusall" = true ] || [ "$(echo "$git" | wc -l)" -gt 1 ] || \
+            [ "$(echo "$git" | grep -c "ahead\|behind")" -gt 0 ]; then
+                    echo "repo: ${w/#$HOME/\~}"
+                    echo "$git" | sed ';s/^/      /g'
+                    echo
+        fi
+    fi
+done
