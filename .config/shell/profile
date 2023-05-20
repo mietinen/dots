@@ -35,7 +35,7 @@ export LOCATION="hammerfest"    # weather block
 export LS_COLORS="ow=30;42"     # fix unreadable blue on green
 export LIBVIRT_DEFAULT_URI="qemu:///system"
 export ZK_NOTEBOOK_DIR="${XDG_DOCUMENTS_DIR:-$HOME/Documents}/notes"
-umask 027
+# umask 027
 
 # ------------------------------------------------------------------------------
 # SSH AGENT
