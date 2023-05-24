@@ -17,7 +17,6 @@ local hotkeys_popup = require("awful.hotkeys_popup")
 local naughty = require("naughty")
 naughty.config.defaults['icon_size'] = 100
 -- Widgets
-local yr_widget = require("widgets.yr")
 local iface_widget = require("widgets.iface")
 local mem_widget = require("widgets.mem")
 local cpu_widget = require("widgets.cpu")
@@ -218,7 +217,6 @@ awful.screen.connect_for_each_screen(function(s)
             layout = wibox.layout.fixed.horizontal,
             wibox.widget.textbox(""),
 
-            yr_widget(),
             iface_widget(),
             mem_widget(),
             cpu_widget(),
