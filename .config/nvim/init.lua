@@ -1,37 +1,4 @@
 -- -----------------------------------------------------------------------------
--- Plugins
--- -----------------------------------------------------------------------------
-local packer_path = vim.fn.stdpath('data') .. '/site/pack/packer/start/packer.nvim'
-local packer_bootstrap = false
-if vim.fn.empty(vim.fn.glob(packer_path)) > 0 then
-    packer_bootstrap = true
-    vim.fn.system { 'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', packer_path }
-    vim.cmd [[packadd packer.nvim]]
-end
-
-require('packer').startup(function(use)
-    use 'wbthomason/packer.nvim'
-    use 'tpope/vim-surround'
-    use 'tpope/vim-commentary'
-    use 'junegunn/vim-peekaboo'
-    use 'itchyny/lightline.vim'
-    use 'sbdchd/neoformat'
-    use { 'gruvbox-community/gruvbox', config = 'applycolorscheme("gruvbox")' }
-    use { 'nvim-telescope/telescope.nvim', requires = 'nvim-lua/plenary.nvim' }
-    use { 'mickael-menu/zk-nvim', requires = 'nvim-telescope/telescope.nvim' }
-    use {
-        'neovim/nvim-lspconfig',
-        'hrsh7th/nvim-cmp',
-        'hrsh7th/cmp-nvim-lsp',
-        'hrsh7th/cmp-buffer',
-        { 'dcampos/cmp-snippy', requires = 'dcampos/nvim-snippy' }
-    }
-    if packer_bootstrap then
-        require('packer').sync()
-    end
-end)
-
--- -----------------------------------------------------------------------------
 -- Settings
 -- -----------------------------------------------------------------------------
 vim.cmd.syntax('on')
@@ -81,15 +48,69 @@ vim.keymap.set('n', '<leader>e', ':Lexplore<CR>', {silent = true})
 vim.keymap.set('n', '<leader><CR>', ':source $MYVIMRC <bar> echo "Reloaded ".fnamemodify($MYVIMRC, ":t")<CR>', {silent = true})
 vim.keymap.set('n', '<leader>w', [[:%s/\s\+$//e<CR>]], {silent = true})
 vim.keymap.set('n', '<leader>l', ':set list!<CR>', {silent = true})
-vim.keymap.set('n', '<leader>R', ':!<C-r>=expand("%:p")<CR> ')
+vim.keymap.set('n', '<leader>r', ':!<C-r>=expand("%:p")<CR> ')
 vim.keymap.set('n', '<leader>s', [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
 vim.keymap.set('v', '<leader>s', [["hy:%s/<C-r>=escape(@h,'/\:')<CR>/<C-r>=escape(@h,'/\:')<CR>/gI<left><left><left>]])
 vim.keymap.set('v', '<leader>p', '"_dP')
 
 -- -----------------------------------------------------------------------------
--- Colors
+-- Autocmd
 -- -----------------------------------------------------------------------------
-applycolorscheme = function(color)
+local ft = vim.api.nvim_create_augroup('FTStuff', { clear = true })
+vim.api.nvim_create_autocmd('FileType', {
+    group = ft,
+    callback = function(args)
+        local m = args.match
+        if m == 'markdown' then vim.cmd.setlocal('wrap linebreak spell')
+        elseif m == 'text' then vim.cmd.setlocal('wrap linebreak spell')
+        elseif m == 'php' then vim.cmd.setlocal('commentstring=//%s')
+        elseif m == 'xdefaults' then vim.cmd.setlocal('commentstring=!%s')
+        elseif m == 'htmldjango' then vim.cmd.setlocal('commentstring={#%s#}')
+        end
+        vim.cmd.set('formatoptions-=o foldmethod=manual')
+    end
+})
+
+-- -----------------------------------------------------------------------------
+-- Packer
+-- -----------------------------------------------------------------------------
+local packer_path = vim.fn.stdpath('data') .. '/site/pack/packer/start/packer.nvim'
+local packer_bootstrap = false
+if vim.fn.empty(vim.fn.glob(packer_path)) > 0 then
+    packer_bootstrap = true
+    vim.fn.system { 'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', packer_path }
+    vim.cmd [[packadd packer.nvim]]
+end
+
+require('packer').startup(function(use)
+    use {
+        'wbthomason/packer.nvim',
+        'tpope/vim-surround',
+        'tpope/vim-commentary',
+        'junegunn/vim-peekaboo',
+        'itchyny/lightline.vim',
+        'sbdchd/neoformat',
+    }
+    use { 'gruvbox-community/gruvbox', config = 'config_colorscheme("gruvbox")' }
+    use { 'nvim-telescope/telescope.nvim', tag = '0.1.2', config = 'config_telescope()', requires = 'nvim-lua/plenary.nvim' }
+    use { 'mickael-menu/zk-nvim', config = 'config_zk()', requires = 'nvim-telescope/telescope.nvim' }
+    use { 'neovim/nvim-lspconfig', config = 'config_lspconfig()' }
+    use { 'dcampos/nvim-snippy', config = 'config_snippy()' }
+    use { 'hrsh7th/nvim-cmp', config = 'config_cmp()' }
+    use {
+        'hrsh7th/cmp-nvim-lsp',
+        'hrsh7th/cmp-buffer',
+        'dcampos/cmp-snippy',
+    }
+    if packer_bootstrap then
+        require('packer').sync()
+    end
+end)
+
+-- -----------------------------------------------------------------------------
+-- Plugin configs
+-- -----------------------------------------------------------------------------
+config_colorscheme = function(color)
     color = color or ''
     if vim.fn.globpath(vim.o.runtimepath, 'colors/'..color..'.vim')
     .. vim.fn.globpath(vim.o.runtimepath, 'colors/'..color..'.lua') == '' then
@@ -112,31 +133,11 @@ applycolorscheme = function(color)
     vim.g.lightline = { colorscheme = vim.g.colors_name or 'default' }
     vim.cmd.highlight('Normal guibg=NONE ctermbg=NONE')
 end
-applycolorscheme()
+config_colorscheme() -- Fallback colorscheme
 
--- -----------------------------------------------------------------------------
--- Autocmd
--- -----------------------------------------------------------------------------
-local ft = vim.api.nvim_create_augroup('FTStuff', { clear = true })
-vim.api.nvim_create_autocmd('FileType', {
-    group = ft,
-    callback = function(args)
-        local m = args.match
-        if m == 'markdown' then vim.cmd.setlocal('wrap linebreak spell')
-        elseif m == 'text' then vim.cmd.setlocal('wrap linebreak spell')
-        elseif m == 'php' then vim.cmd.setlocal('commentstring=//%s')
-        elseif m == 'xdefaults' then vim.cmd.setlocal('commentstring=!%s')
-        elseif m == 'htmldjango' then vim.cmd.setlocal('commentstring={#%s#}')
-        end
-        vim.cmd.set('formatoptions-=o foldmethod=manual')
-    end
-})
-
--- -----------------------------------------------------------------------------
--- nvim-lspconfig
--- -----------------------------------------------------------------------------
-local lsp_ok, lsp = pcall(require, 'lspconfig')
-if lsp_ok then
+config_lspconfig = function()
+    local ok, lsp = pcall(require, 'lspconfig')
+    if not ok then return end
     local on_attach = function(client, bufnr)
         local opts = {buffer = bufnr, silent = true}
         vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
@@ -169,11 +170,9 @@ if lsp_ok then
     })
 end
 
--- -----------------------------------------------------------------------------
--- nvim-cmp
--- -----------------------------------------------------------------------------
-local cmp_ok, cmp = pcall(require, 'cmp')
-if cmp_ok then
+config_cmp = function()
+    local ok, cmp = pcall(require, 'cmp')
+    if not ok then return end
     cmp.setup({
         snippet = {
             expand = function(args)
@@ -194,11 +193,9 @@ if cmp_ok then
     })
 end
 
--- -----------------------------------------------------------------------------
--- nvim-snippy
--- -----------------------------------------------------------------------------
-local snippy_ok, snippy = pcall(require, 'snippy')
-if snippy_ok then
+config_snippy = function()
+    local ok, snippy = pcall(require, 'snippy')
+    if not ok then return end
     snippy.setup({
         mappings = {
             is = {
@@ -212,22 +209,18 @@ if snippy_ok then
     })
 end
 
--- -----------------------------------------------------------------------------
--- telescope.nvim
--- -----------------------------------------------------------------------------
-local telescope_ok, telescope = pcall(require, 'telescope.builtin')
-if telescope_ok then
+config_telescope = function()
+    local ok, telescope = pcall(require, 'telescope.builtin')
+    if not ok then return end
     vim.keymap.set('n', '<leader>ff', telescope.find_files, {})
     vim.keymap.set('n', '<leader>fg', telescope.live_grep, {})
     vim.keymap.set('n', '<leader>fb', telescope.buffers, {})
     vim.keymap.set('n', '<leader>fh', telescope.help_tags, {})
 end
 
--- -----------------------------------------------------------------------------
--- zk-nvim
--- -----------------------------------------------------------------------------
-local zk_ok, zk = pcall(require, 'zk')
-if zk_ok then
+config_zk = function()
+    local ok, zk = pcall(require, 'zk')
+    if not ok then return end
     zk.setup({picker = 'telescope'})
     vim.keymap.set('n', '<leader>zn', '<Cmd>ZkNew { title = vim.fn.input("Title: ") }<CR>', {silent = true})
     vim.keymap.set('n', '<leader>zf', '<Cmd>ZkNotes { sort = { "modified" } }<CR>', {silent = true})

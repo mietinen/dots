@@ -7,9 +7,9 @@ command="weechat"
 
 if [ "$host" != "$(uname -n)" ]; then
     if [ -n "$TMUX" ]; then
-        tmux detach -E "ssh -t \"$host\" \"bash -l ${0##*/}\""
+        tmux detach -E "ssh -qt \"$host\" \"bash -l ${0##*/}\""
     else
-        ssh -t "$host" "bash -l ${0##*/}"
+        ssh -qt "$host" "bash -l ${0##*/}"
     fi
     exit 0
 fi

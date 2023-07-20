@@ -92,36 +92,39 @@ end
 -- Variable definitions
 -- Themes define colours, icons, font and wallpapers.
 beautiful.init(gears.filesystem.get_themes_dir().."default/theme.lua")
-beautiful.font                  = "Monospace 9"
-beautiful.useless_gap           = 4
-beautiful.border_width          = 2
-beautiful.taglist_spacing       = 2
-beautiful.systray_icon_spacing  = 3
-beautiful.notification_shape    = gears.shape.rounded_rect
+beautiful.font                                  = "Monospace 9"
+beautiful.useless_gap                           = 4
+beautiful.border_width                          = 2
+beautiful.taglist_spacing                       = 2
+beautiful.systray_icon_spacing                  = 3
+beautiful.notification_shape                    = gears.shape.rounded_rect
 
-scheme                          = require("gruvbox-dark-hard")
-beautiful.border_normal         = scheme.color0
-beautiful.border_focus          = scheme.color6
-beautiful.border_marked         = scheme.color1
+scheme                                          = require("gruvbox-dark-hard")
+beautiful.border_normal                         = scheme.color0
+beautiful.border_focus                          = scheme.color6
+beautiful.border_marked                         = scheme.color1
 
-beautiful.bg_normal             = scheme.background
-beautiful.bg_focus              = scheme.color6
-beautiful.bg_urgent             = scheme.color1
-beautiful.bg_minimize           = scheme.color0
-beautiful.bg_systray            = scheme.background
+beautiful.bg_normal                             = scheme.background
+beautiful.bg_focus                              = scheme.color6
+beautiful.bg_urgent                             = scheme.color1
+beautiful.bg_minimize                           = scheme.color0
+beautiful.bg_systray                            = scheme.background
 
-beautiful.fg_normal             = scheme.foreground
-beautiful.fg_focus              = scheme.color0
-beautiful.fg_urgent             = scheme.color7
-beautiful.fg_minimize           = scheme.foreground
+beautiful.fg_normal                             = scheme.foreground
+beautiful.fg_focus                              = scheme.color0
+beautiful.fg_urgent                             = scheme.color7
+beautiful.fg_minimize                           = scheme.foreground
 
-beautiful.taglist_bg_empty      = scheme.color0
-beautiful.taglist_bg_occupied   = scheme.color8
+beautiful.taglist_bg_empty                      = scheme.color0
+beautiful.taglist_bg_occupied                   = scheme.color8
 
-beautiful.tasklist_fg_normal    = scheme.foreground
-beautiful.tasklist_bg_normal    = scheme.background
-beautiful.tasklist_fg_focus     = scheme.foreground
-beautiful.tasklist_bg_focus     = scheme.background
+beautiful.tasklist_fg_normal                    = scheme.foreground
+beautiful.tasklist_bg_normal                    = scheme.background
+beautiful.tasklist_fg_focus                     = scheme.foreground
+beautiful.tasklist_bg_focus                     = scheme.background
+beautiful.tasklist_shape_border_color           = scheme.color0
+beautiful.tasklist_shape_border_color_focus     = scheme.color6
+beautiful.tasklist_shape_border_color_urgent    = scheme.color1
 
 beautiful.hotkeys_modifiers_fg  = scheme.color2
 
@@ -141,6 +144,7 @@ awful.layout.layouts = {
     awful.layout.suit.corner.nw,
     awful.layout.suit.spiral.dwindle,
     awful.layout.suit.floating,
+    awful.layout.suit.max,
 }
 
 -- Keyboard map indicator and switcher
@@ -175,9 +179,13 @@ awful.screen.connect_for_each_screen(function(s)
 
     -- Each screen has its own tag table.
     if (s.index == 1) then
-        --                web    term   dev    docs   chat   media  virt   launch games
-        local names =   { "1 ", "2 ", "3 ", "4 ", "5 ", "6 ", "7 ", "8 ", "9 " }
-        local layouts = { l[1],  l[1],  l[1],  l[1],  l[1],  l[1],  l[1],  l[5],  l[5]  }
+        --                term   web    dev    chat   media  docs   virt   launch games
+        local icons =   { "",   "",   "",   "󰭹",   "",   "",   "",   "",   "" }
+        local layouts = { l[1],  l[1],  l[1],  l[6],  l[1],  l[1],  l[1],  l[5],  l[5]  }
+        local names = {}
+        for k,v in pairs(icons) do
+            table.insert(names, k.." "..v)
+        end
         awful.tag(names, s, layouts)
     else
         root.tags()[s.index].screen = s
@@ -193,8 +201,16 @@ awful.screen.connect_for_each_screen(function(s)
     -- Create a tasklist widget
     s.mytasklist = awful.widget.tasklist {
         screen = s,
-        filter = awful.widget.tasklist.filter.focused,
-            buttons = tasklist_buttons,
+        filter = awful.widget.tasklist.filter.currenttags,
+        buttons = tasklist_buttons,
+        style    = {
+            shape_border_width = 1,
+            shape  = function(c,w,h) gears.shape.rounded_rect(c,w,h,4) end,
+        },
+        layout   = {
+            spacing = 5,
+            layout  = wibox.layout.fixed.horizontal
+        },
     }
 
     -- Create the wibox
@@ -643,7 +659,7 @@ awful.rules.rules = {
         rule_any = {
             instance = { "discord", "signal", "telegram-desktop", "element" }
         },
-        properties = { screen = root.tags()[5].screen, tag = root.tags()[5].name }
+        properties = { tag = root.tags()[4] }
     },
     -- Media players, tag 6
     {
@@ -651,28 +667,28 @@ awful.rules.rules = {
             instance = { "spotify", "plexmediaplayer", "lbry", "mpv", ".*%.Celluloid", "[Kk]odi" },
             class = { "mpv" }
         },
-        properties = { screen = root.tags()[6].screen, tag = root.tags()[6].name }
+        properties = { tag = root.tags()[5] }
     },
     -- Virtual machines, tag 7
     {
         rule_any = {
             instance = { "virt-manager", "virt-viewer", "[Vv]irtual[Bb]ox" }
         },
-        properties = { screen = root.tags()[7].screen, tag = root.tags()[7].name }
+        properties = { tag = root.tags()[7] }
     },
     -- Game launchers, tag 8
     {
         rule_any = {
             instance = { "[Ss]team", "[Ll]utris" }
         },
-        properties = { screen = root.tags()[8].screen, tag = root.tags()[8].name }
+        properties = { tag = root.tags()[8] }
     },
     -- Games, tag 9
     {
         rule_any = {
             class = { "steam_app_.*" }
         },
-        properties = { screen = root.tags()[9].screen, tag = root.tags()[9].name, switchtotag = true, border_width = 0 }
+        properties = { root.tags()[9], switchtotag = true, border_width = 0 }
     },
 }
 
