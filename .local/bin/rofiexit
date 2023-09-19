@@ -3,7 +3,7 @@
 chosen=$(printf "Lock screen\nExit/logout\nSuspend\nReboot\nShutdown" | rofi -i -dmenu -sort -p "System exit")
 
 # Exit if none chosen.
-[ -z "$chosen" ] && exit
+[ -z "$chosen" ] && exit 0
 
 case "$chosen" in
     "Lock screen") light-locker-command --lock ;;

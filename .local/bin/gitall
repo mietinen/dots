@@ -6,7 +6,7 @@ usage() {
     echo "    -f  git fetch - for all found repositories"
     echo "    -s  git status - for repositories with changes"
     echo "    -a  if combined with status, print all found repositories"
-    exit
+    exit 0
 }
 
 while getopts ":afs" opt; do

@@ -6,7 +6,7 @@ git_repos=("dots" "private")
 
 # check if git is installed
 if ! command -v git >/dev/null; then
-    echo "Git is not installed, exiting"
+    echo "Git is not installed, exiting" >&2
     exit 1
 fi
 

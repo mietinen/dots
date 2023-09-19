@@ -3,7 +3,7 @@
 chosen=$(man -k . | awk '{ print $1 }' | rofi -i -dmenu -sort -p "Select man page")
 
 # Exit if none chosen.
-[ -z "$chosen" ] && exit
+[ -z "$chosen" ] && exit 0
 
 tempfile=$(mktemp)
 # man -Tpdf $chosen | cat - > "$tempfile"

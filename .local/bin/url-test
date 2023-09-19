@@ -14,7 +14,7 @@ else
     echo
     echo "Examples: ${0##*/} https://url.com https://url2.org .."
     echo "          cat list.txt | ${0##*/}"
-    exit 0
+    exit 1
 fi
 
 echo "Test multiple http(s) connections, sort by time to load"

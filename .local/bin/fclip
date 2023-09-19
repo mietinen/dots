@@ -1,8 +1,4 @@
 #!/bin/sh
-# Copy file using base64 and xclip
-# Clipboard varies if file contains shebang
-# Examples: sh <(echo IyEvYmluL3NoCmlkCg==|base64 -d)
-#           echo SGVsbG8gd29ybGQK|base64 -d
 
 if [ -z "$1" ] ; then
     echo "Usage: ${0##*/} <filename>"
@@ -16,8 +12,8 @@ fi
 
 # Check if file is readable
 if [ ! -r "$1" ] || [ ! -f "$1" ] ; then
-    echo "File not readable: $1" 1>&2
-    exit 1
+    echo "File not readable: $1" >&2
+    exit 0
 fi
 
 # Get interpreter from shebang

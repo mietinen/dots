@@ -10,6 +10,7 @@ vim.opt.scrolloff = 5
 vim.opt.hidden = true
 vim.opt.number = true
 vim.opt.relativenumber = true
+vim.opt.signcolumn = 'yes'
 vim.opt.tabstop = 4
 vim.opt.shiftwidth = 4
 vim.opt.softtabstop = -1
@@ -72,45 +73,9 @@ vim.api.nvim_create_autocmd('FileType', {
 })
 
 -- -----------------------------------------------------------------------------
--- Packer
--- -----------------------------------------------------------------------------
-local packer_path = vim.fn.stdpath('data') .. '/site/pack/packer/start/packer.nvim'
-local packer_bootstrap = false
-if vim.fn.empty(vim.fn.glob(packer_path)) > 0 then
-    packer_bootstrap = true
-    vim.fn.system { 'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', packer_path }
-    vim.cmd [[packadd packer.nvim]]
-end
-
-require('packer').startup(function(use)
-    use {
-        'wbthomason/packer.nvim',
-        'tpope/vim-surround',
-        'tpope/vim-commentary',
-        'junegunn/vim-peekaboo',
-        'itchyny/lightline.vim',
-        'sbdchd/neoformat',
-    }
-    use { 'gruvbox-community/gruvbox', config = 'config_colorscheme("gruvbox")' }
-    use { 'nvim-telescope/telescope.nvim', tag = '0.1.2', config = 'config_telescope()', requires = 'nvim-lua/plenary.nvim' }
-    use { 'mickael-menu/zk-nvim', config = 'config_zk()', requires = 'nvim-telescope/telescope.nvim' }
-    use { 'neovim/nvim-lspconfig', config = 'config_lspconfig()' }
-    use { 'dcampos/nvim-snippy', config = 'config_snippy()' }
-    use { 'hrsh7th/nvim-cmp', config = 'config_cmp()' }
-    use {
-        'hrsh7th/cmp-nvim-lsp',
-        'hrsh7th/cmp-buffer',
-        'dcampos/cmp-snippy',
-    }
-    if packer_bootstrap then
-        require('packer').sync()
-    end
-end)
-
--- -----------------------------------------------------------------------------
 -- Plugin configs
 -- -----------------------------------------------------------------------------
-config_colorscheme = function(color)
+lazy_colorscheme = function(color)
     color = color or ''
     if vim.fn.globpath(vim.o.runtimepath, 'colors/'..color..'.vim')
     .. vim.fn.globpath(vim.o.runtimepath, 'colors/'..color..'.lua') == '' then
@@ -130,15 +95,14 @@ config_colorscheme = function(color)
         vim.g.gruvbox_sign_column = 'none'
         vim.cmd.colorscheme(color)
     end
-    vim.g.lightline = { colorscheme = vim.g.colors_name or 'default' }
     vim.cmd.highlight('Normal guibg=NONE ctermbg=NONE')
 end
-config_colorscheme() -- Fallback colorscheme
+lazy_colorscheme() -- Fallback colorscheme
 
-config_lspconfig = function()
+lazy_lspconfig = function()
     local ok, lsp = pcall(require, 'lspconfig')
     if not ok then return end
-    local on_attach = function(client, bufnr)
+    local custom_attach = function(client, bufnr)
         local opts = {buffer = bufnr, silent = true}
         vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
         vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
@@ -146,7 +110,7 @@ config_lspconfig = function()
     end
     local lsp_setup = function(server, config)
         local cmd = config.cmd or lsp[server].document_config.default_config.cmd or {''}
-        config.on_attach = config.on_attach or on_attach
+        config.on_attach = config.on_attach or custom_attach
         if vim.fn.executable(cmd[1]) ~= 0 then
             lsp[server].setup(config)
         end
@@ -170,7 +134,7 @@ config_lspconfig = function()
     })
 end
 
-config_cmp = function()
+lazy_cmp = function()
     local ok, cmp = pcall(require, 'cmp')
     if not ok then return end
     cmp.setup({
@@ -193,7 +157,7 @@ config_cmp = function()
     })
 end
 
-config_snippy = function()
+lazy_snippy = function()
     local ok, snippy = pcall(require, 'snippy')
     if not ok then return end
     snippy.setup({
@@ -209,7 +173,7 @@ config_snippy = function()
     })
 end
 
-config_telescope = function()
+lazy_telescope = function()
     local ok, telescope = pcall(require, 'telescope.builtin')
     if not ok then return end
     vim.keymap.set('n', '<leader>ff', telescope.find_files, {})
@@ -218,10 +182,36 @@ config_telescope = function()
     vim.keymap.set('n', '<leader>fh', telescope.help_tags, {})
 end
 
-config_zk = function()
+lazy_zk = function()
     local ok, zk = pcall(require, 'zk')
     if not ok then return end
     zk.setup({picker = 'telescope'})
     vim.keymap.set('n', '<leader>zn', '<Cmd>ZkNew { title = vim.fn.input("Title: ") }<CR>', {silent = true})
     vim.keymap.set('n', '<leader>zf', '<Cmd>ZkNotes { sort = { "modified" } }<CR>', {silent = true})
 end
+
+-- -----------------------------------------------------------------------------
+-- Load plugins - lazy.nvim
+-- -----------------------------------------------------------------------------
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not vim.loop.fs_stat(lazypath) then
+    vim.fn.system { 'git', 'clone', '--filter=blob:none', 'https://github.com/folke/lazy.nvim.git', '--branch=stable', lazypath, }
+end
+vim.opt.rtp:prepend(lazypath)
+
+require('lazy').setup {
+    'tpope/vim-surround',
+    'tpope/vim-commentary',
+    'junegunn/vim-peekaboo',
+    'sbdchd/neoformat',
+    { 'gruvbox-community/gruvbox', config = function() lazy_colorscheme('gruvbox') end },
+    { 'nvim-lualine/lualine.nvim', config = true },
+    { 'nvim-telescope/telescope.nvim', version = '*', dependencies = 'nvim-lua/plenary.nvim', config = function() lazy_telescope() end },
+    { 'mickael-menu/zk-nvim', dependencies = 'nvim-telescope/telescope.nvim', config = function() lazy_zk() end },
+    { 'neovim/nvim-lspconfig', config = function() lazy_lspconfig() end },
+    { 'dcampos/nvim-snippy', config = function() lazy_snippy() end },
+    { 'hrsh7th/nvim-cmp', config = function() lazy_cmp() end },
+    'hrsh7th/cmp-nvim-lsp',
+    'hrsh7th/cmp-buffer',
+    'dcampos/cmp-snippy',
+}

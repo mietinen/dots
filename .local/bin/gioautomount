@@ -8,7 +8,7 @@ mounts=(
     strongbad/isos
 )
 
-command -v gio >/dev/null || exit
+command -v gio >/dev/null || exit 1
 sleep 5
 for mount in "${mounts[@]}" ; do
     gio mount "smb://$mount" 2>/dev/null

@@ -7,25 +7,31 @@ usage() {
     echo "options are:"
     echo "   -c: create new directory for extraction"
     echo "   -q: perform extraction quietly"
+    exit 0
 }
 
 while getopts ":hcq" opt; do
     case $opt in
         c) create=true ;;
         q) quiet=true ;;
-        *) usage ; exit 1;;
+        *) usage ;;
     esac
 done
 shift $((OPTIND-1))
 
-file="$(realpath "$1")"
+test $# -lt 1 && usage
 
-# Check if file
-[ ! -f "$file" ] && echo "'$1' is not a valid file" && exit 1
+# Check if valid file
+file="$(realpath "$1")"
+if [ ! -f "$file" ]; then
+    echo "'$1' is not a valid file" >&2
+    exit 1
+fi
 
 # Create new directory for extraction
-if [ -n "$create" ] ; then
-    dir="$(echo "${file%.*}" | sed 's/\.tar$//gI')"
+if [ -n "$create" ]; then
+    dir="${file%.*}"
+    dir="${dir%.tar}"
     mkdir "$dir" || exit 1
     cd "$dir" || exit 1
 fi
@@ -36,13 +42,17 @@ extract() {
         *.bz2)                              bunzip2 -v "$file" ;;
         *.rar)                              unrar x "$file" ;;
         *.gz)                               gunzip -v "$file" ;;
-        *.zip)                              unzip "$file" ;;
+        *.zip | *.xpi | *.crx)              unzip "$file" ;;
         *.Z)                                uncompress -v "$file" ;;
         *.7z | *.dmg | *.exe)               7z x "$file" ;;
         *.deb)                              ar vx "$file" ;;
         *.rpm)                              bsdtar -xvf "$file" ;;
-        *) echo "'$file' cannot be extracted via ${0##*/}" ;;
+        *) echo "'$file' cannot be extracted via ${0##*/}" >&2 ;;
     esac
 }
 
-[ -n "$quiet" ] && extract >/dev/null || extract
+if [ -n "$quiet" ]; then
+    extract >/dev/null
+else
+    extract
+fi

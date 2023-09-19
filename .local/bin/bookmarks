@@ -22,5 +22,5 @@ case "$1" in
         for b in ${bm_dirs[@]}; do
             [ -d "$b" ] && echo "$b"
         done | eval "$fuzzy" ;;
-    *) exit 0 ;;
+    *) exit 1 ;;
 esac

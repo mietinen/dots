@@ -17,6 +17,7 @@ usage() {
  -l, --lua          Lua script (#!/usr/bin/env luajit)
 
 default script is POSIX (#!/bin/sh)"
+    exit 1
 }
 
 case "$1" in
@@ -31,23 +32,20 @@ case "$1" in
     -r | --ruby)    shebang="#!/usr/bin/env ruby" ; shift ;;
     -l | --lua)     shebang="#!/usr/bin/env luajit" ; shift ;;
     --) shift ;;
-    -*) usage ; exit 1 ;;
+    -*) usage ;;
 esac
 
 [ -z "$shebang" ] && shebang="#!/bin/sh"
 
-if [ $# -eq 0 ]; then
-    usage
-    exit 1
-fi
+test $# -lt 1 && usage
 
 if [ -f "$1" ]; then
-    echo "${0##*/}: file '$1': already exist" 1>&2
+    echo "${0##*/}: file '$1': already exist" >&2
     exit 1
 fi
 
 if [ ! -d "$(dirname "$1")" ]; then
-    echo "${0##*/}: cannot access '$(dirname "$1")': No such directory" 1>&2
+    echo "${0##*/}: cannot access '$(dirname "$1")': No such directory" >&2
     exit 1
 fi
 
