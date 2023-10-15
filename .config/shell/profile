@@ -1,13 +1,4 @@
 #!/bin/sh
-#
-# ~/.profile
-#
-
-# ------------------------------------------------------------------------------
-# Adds `~/.local/bin` to $PATH
-# ------------------------------------------------------------------------------
-echo ":$PATH:" | grep -q ":$HOME/.local/bin:" || \
-    export PATH="$HOME/.local/bin${PATH:+:${PATH}}"
 
 # ------------------------------------------------------------------------------
 # Default programs
@@ -18,24 +9,32 @@ export TERMINAL="alacritty"
 export BROWSER="firefox"
 
 # ------------------------------------------------------------------------------
-# ~/ Clean-up
+# Misc env exports and ~/ clean-up
 # ------------------------------------------------------------------------------
 export XINITRC="${XDG_CONFIG_HOME:-$HOME/.config}/desktop/xinitrc"
 export ZDOTDIR="${XDG_CONFIG_HOME:-$HOME/.config}/shell"
-export LESSHISTFILE="-"
 export GTK2_RC_FILES="${XDG_CONFIG_HOME:-$HOME/.config}/gtk-2.0/gtkrc"
-export ATOM_HOME="${XDG_DATA_HOME:-$HOME/.local/share}/atom"
 export TMUX_TMPDIR="$XDG_RUNTIME_DIR"
 export GOPATH="${XDG_DATA_HOME:-$HOME/.local/share}/go"
+export ZK_NOTEBOOK_DIR="${XDG_DOCUMENTS_DIR:-$HOME/Documents}/notes"
+export LESSHISTFILE="-"
+export LS_COLORS="ow=30;42" # fix unreadable blue on green
+export LIBVIRT_DEFAULT_URI="qemu:///system"
+export QT_QPA_PLATFORMTHEME="gtk2"
+export QT_AUTO_SCREEN_SCALE_FACTOR=0
+export JDK_JAVA_OPTIONS="-Dawt.useSystemAAFontSettings=on -Dswing.aatext=true -Dswing.defaultlaf=com.sun.java.swing.plaf.gtk.GTKLookAndFeel"
 
 # ------------------------------------------------------------------------------
-# Misc
+# $PATH
 # ------------------------------------------------------------------------------
-export LOCATION="hammerfest"    # weather block
-export LS_COLORS="ow=30;42"     # fix unreadable blue on green
-export LIBVIRT_DEFAULT_URI="qemu:///system"
-export ZK_NOTEBOOK_DIR="${XDG_DOCUMENTS_DIR:-$HOME/Documents}/notes"
-# umask 027
+add_path() {
+    test -d "$1" || return
+    echo ":$PATH:" | grep -q ":$1:" && return
+    export PATH="$1${PATH:+":${PATH}"}"
+}
+add_path "$GOPATH/bin"
+add_path "$HOME/.local/bin"
+unset -f add_path
 
 # ------------------------------------------------------------------------------
 # SSH AGENT
@@ -49,13 +48,6 @@ if [ -z "$SSH_AUTH_SOCK" ] || [ "$(ssh-add -l >/dev/null 2>&1; echo $?)" -eq 2 ]
         trap 'kill $SSH_AGENT_PID' EXIT
     fi
 fi
-
-# ------------------------------------------------------------------------------
-# Desktop stuff
-# ------------------------------------------------------------------------------
-export QT_QPA_PLATFORMTHEME="gtk2"
-export QT_AUTO_SCREEN_SCALE_FACTOR=0
-export JDK_JAVA_OPTIONS="-Dawt.useSystemAAFontSettings=on -Dswing.aatext=true -Dswing.defaultlaf=com.sun.java.swing.plaf.gtk.GTKLookAndFeel"
 
 # ------------------------------------------------------------------------------
 # Source bashrc

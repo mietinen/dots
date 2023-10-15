@@ -14,7 +14,7 @@ while [ ! -s "$file" ]; do
             }' > "$file"
         unset dl
     else
-        notify-send "Error downloading emoji file from unicode.org"
+        notify-send "Rofiunicode" "Error downloading emoji file from unicode.org"
         exit 1
     fi
 done
@@ -28,4 +28,4 @@ chosen="${select%%[[:space:]]*}"
 
 # Show a message that the emoji has been copied.
 printf "%s" "$chosen" | xclip -selection clipboard
-notify-send "'$chosen' copied to clipboard."
+notify-send "Rofiunicode" "'$chosen' copied to clipboard."

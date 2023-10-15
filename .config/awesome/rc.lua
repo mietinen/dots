@@ -310,6 +310,11 @@ globalkeys = gears.table.join(
         {description="show help", group="awesome"}
     ),
 
+    awful.key({ modkey }, "b",
+        function() awful.spawn("bluedim") end,
+        {description = "Bluedim toggle (color temperature)", group = "Miscellaneous"}
+    ),
+
     awful.key({ modkey }, "c",
         function() awful.spawn([[ bash -c "
             xclip -selection primary -in /dev/null
@@ -318,7 +323,7 @@ globalkeys = gears.table.join(
             "]])
             infonotify { title = "Clipboard", text = "Cleared all clipboard selections", }
         end,
-        {description="Clear clipboard", group="awesome"}
+        {description="Clear clipboard", group="Miscellaneous"}
     ),
 
     awful.key({ modkey }, "Escape",

@@ -45,7 +45,7 @@ for repo in "${git_repos[@]}"; do
         git --git-dir="$dotdir/$repo" --work-tree="$HOME" checkout 2>&1 | grep -E "\s+\." | awk '{print $1}' | xargs -I{} rm -f "{}"
         git --git-dir="$dotdir/$repo" --work-tree="$HOME" checkout
         git --git-dir="$dotdir/$repo" --work-tree="$HOME" fetch
-        git --git-dir="$dotdir/$repo" --work-tree="$HOME" branch --set-upstream-to=origin/master master
+        git --git-dir="$dotdir/$repo" --work-tree="$HOME" branch --set-upstream-to=origin/main main
     fi
     echo
 done
