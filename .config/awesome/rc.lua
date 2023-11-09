@@ -693,7 +693,7 @@ awful.rules.rules = {
         rule_any = {
             class = { "steam_app_.*" }
         },
-        properties = { root.tags()[9], switchtotag = true, border_width = 0 }
+        properties = { tag = root.tags()[9], switchtotag = true, border_width = 0 }
     },
 }
 
