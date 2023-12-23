@@ -36,8 +36,8 @@ snippet +++ "Zola variables in TOML format"
 	+++
 	title = "${1}"
 	description = "${2}"
-	sort_by = "${3:weight}"
-	date = ${4:`strftime("%Y-%m-%d")`}
+	sort_by = "${3:weight}" # section
+	date = ${4:`strftime("%Y-%m-%d")`} # page
 	weight = ${5:10}
 
 	draft = false

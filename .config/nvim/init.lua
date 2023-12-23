@@ -62,7 +62,11 @@ vim.api.nvim_create_autocmd('FileType', {
     group = ft,
     callback = function(args)
         local m = args.match
-        if m == 'markdown' then vim.cmd.setlocal('wrap linebreak spell')
+        if m == 'markdown' then
+            vim.cmd.setlocal('wrap linebreak spell')
+            vim.b.current_syntax = nil
+            vim.cmd.syntax('include @markdownTomlTop syntax/toml.vim')
+            vim.cmd.syntax('region markdownTomlHead start=/\\%^+++$/ end=/^+++$/ keepend contains=@markdownTomlTop')
         elseif m == 'text' then vim.cmd.setlocal('wrap linebreak spell')
         elseif m == 'php' then vim.cmd.setlocal('commentstring=//%s')
         elseif m == 'xdefaults' then vim.cmd.setlocal('commentstring=!%s')
