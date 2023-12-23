@@ -11,7 +11,7 @@ autorun=(
     "light-locker --no-late-locking --lock-on-suspend --lock-on-lid --idle-hint"
     "syncthing -no-browser"
     "gioautomount"
-    "discord"
+    # "discord"
 )
 
 # ------------------------------------------------------------------------------
