@@ -208,6 +208,7 @@ require('lazy').setup {
     'tpope/vim-commentary',
     'junegunn/vim-peekaboo',
     'sbdchd/neoformat',
+    { 'dhruvasagar/vim-table-mode', init = function() vim.g.table_mode_corner = '|' end },
     { 'gruvbox-community/gruvbox', config = function() lazy_colorscheme('gruvbox') end },
     { 'nvim-lualine/lualine.nvim', config = true },
     { 'nvim-telescope/telescope.nvim', version = '*', dependencies = 'nvim-lua/plenary.nvim', config = function() lazy_telescope() end },

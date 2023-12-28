@@ -1,0 +1,12 @@
+# Import color scheme
+import = ["~/.config/alacritty/themes/gruvbox_dark_hard.toml"]
+
+[env]
+WINIT_X11_SCALE_FACTOR = "1.0"
+
+[font]
+size = 10
+
+[window]
+dynamic_title = false
+opacity = 0.9
