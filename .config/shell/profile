@@ -12,6 +12,7 @@ export BROWSER="firefox"
 # Misc env exports and ~/ clean-up
 # ------------------------------------------------------------------------------
 export XINITRC="${XDG_CONFIG_HOME:-$HOME/.config}/desktop/xinitrc"
+export XCURSOR_SIZE="16"
 export ZDOTDIR="${XDG_CONFIG_HOME:-$HOME/.config}/shell"
 export GTK2_RC_FILES="${XDG_CONFIG_HOME:-$HOME/.config}/gtk-2.0/gtkrc"
 export TMUX_TMPDIR="$XDG_RUNTIME_DIR"
