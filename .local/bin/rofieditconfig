@@ -1,4 +1,0 @@
-#!/bin/sh
-
-b="$(bookmarks file)"
-[ -f "$b" ] && sensible-terminal -e sensible-editor "$b"

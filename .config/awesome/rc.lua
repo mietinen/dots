@@ -286,7 +286,7 @@ globalkeys = gears.table.join(
     ),
 
     awful.key({ }, "XF86Tools",
-        function() awful.spawn("rofieditconfig") end,
+        function() awful.spawn("rofi -show editconfig") end,
         {description = "Config editor", group = "XF86 keys"}
     ),
 
@@ -343,7 +343,7 @@ globalkeys = gears.table.join(
 
     -- Rofi apps
     awful.key({ modkey }, "d",
-        function() awful.spawn("rofi -modi drun -show drun -show-icons") end,
+        function() awful.spawn("rofi -show drun -show-icons") end,
         {description = "Rofi drun launcher", group = "Rofi apps"}
     ),
 
@@ -358,12 +358,12 @@ globalkeys = gears.table.join(
     ),
 
     awful.key({ modkey }, "x",
-        function() awful.spawn("rofiunicode") end,
-        {description = "Rofi unicode menu", group = "Rofi apps"}
+        function() awful.spawn("rofi -show emoji") end,
+        {description = "Rofi emoji menu", group = "Rofi apps"}
     ),
 
     awful.key({ modkey }, "m",
-        function() awful.spawn("rofiman") end,
+        function() awful.spawn("rofi -show man") end,
         {description = "Rofi manpage launcher", group = "Rofi apps"}
     ),
 
@@ -463,7 +463,7 @@ globalkeys = gears.table.join(
         {description = "toggle debug mode", group = "awesome"}
     ),
     awful.key({ modkey }, "Delete",
-        function() awful.spawn("rofiexit") end,
+        function() awful.spawn("rofi -show exit") end,
         {description = "System exit menu", group = "awesome"}
     ),
 

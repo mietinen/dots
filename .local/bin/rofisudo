@@ -1,7 +1,0 @@
-#!/bin/sh
-# rofisudo <command>
-
-case "$1" in
-    *\[sudo\]*) rofi -password -no-fixed-num-lines -dmenu -p "$*" ;;
-    *) SUDO_ASKPASS="$(realpath "$0")" sudo -A "$@" ;;
-esac

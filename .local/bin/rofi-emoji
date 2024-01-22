@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 file="${XDG_DATA_HOME:-$HOME/.local/share}/emoji.txt"
-url="https://unicode.org/Public/emoji/14.0/emoji-test.txt"
+url="https://unicode.org/Public/emoji/15.1/emoji-test.txt"
 
 # Download and parse emoji-test.txt from unicode.org if it doesn't exist
 dl="yes"
@@ -19,13 +19,14 @@ while [ ! -s "$file" ]; do
     fi
 done
 
-# Get user selection via rofi from emoji file.
-select="$(rofi -i -dmenu -p "Select emoji" < "$file")"
-chosen="${select%%[[:space:]]*}"
-
-# Exit if none chosen.
-[ -z "$chosen" ] && exit 0
-
-# Show a message that the emoji has been copied.
-printf "%s" "$chosen" | xclip -selection clipboard
-notify-send "Rofiunicode" "'$chosen' copied to clipboard."
+if [ "$#" -lt 1 ]; then
+    echo -en "\x00prompt\x1fSelect emoji\n"
+    cat "$file"
+else
+    chosen="${1%%[[:space:]]*}"
+    [ -z "$chosen" ] && exit 0
+    coproc {
+        printf "%s" "$chosen" | xclip -selection clipboard
+        notify-send "Rofiunicode" "'$chosen' copied to clipboard."
+    } >/dev/null 2>&1
+fi

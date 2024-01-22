@@ -4,9 +4,9 @@
 . "${XDG_CONFIG_HOME:-$HOME/.config}/shell/bookmarks" 2>/dev/null
 
 # Fuzzy finder
-if ! test -t 0
-then fuzzy="rofi -i -dmenu -p 'Edit file '"
-else fuzzy="fzf --query=\"$2\""
+if test -t 0
+then fuzzy="fzf --query=\"$2\""
+else fuzzy="cat"
 fi
 
 shopt -s globstar

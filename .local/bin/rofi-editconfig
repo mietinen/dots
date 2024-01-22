@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+if [ "$#" -lt 1 ]; then
+    echo -en "\x00prompt\x1fEdit file\n"
+    bookmarks file
+else
+    [ -f "$*" ] && coproc {
+        sensible-terminal -e sensible-editor "$"
+    } >/dev/null 2>&1
+fi
