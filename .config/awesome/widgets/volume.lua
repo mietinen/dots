@@ -38,9 +38,9 @@ local function worker(args)
     }
 
     local update_widget = function(widget, stdout, _, _, _)
-        local volume = string.match(stdout, "(%d?%d?%d)%%") or "0"
-        local muted = string.match(stdout, "%[(o%D%D?)%]") or "on"
-        if (muted == "off") then
+        local volume = math.floor((tonumber(string.match(stdout, "(%d*%.?%d+)")) or 0) * 100)
+        local muted = string.match(stdout, "%[MUTED%]")
+        if (muted ~= nil) then
             widget:get_children_by_id('icon')[1].image = path_to_icons.."audio-volume-muted-symbolic.svg"
         elseif (tonumber(volume) > 100) then
             widget:get_children_by_id('icon')[1].image = path_to_icons.."audio-volume-overamplified-symbolic.svg"
