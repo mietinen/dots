@@ -4,14 +4,17 @@
 .ICAClient
 .config/shell/.zcompdump
 
-.cargo/
 .cache/
+.cargo/
+.git/
 .mozilla/
 .npm/
-.config/discord/
 .config/chromium/
+.config/discord/
 .config/google-chrome/
 .config/libreoffice/
+.config/Signal/
+.config/syncthing
 .local/share/*
 !.local/share/applications/
 .local/state/

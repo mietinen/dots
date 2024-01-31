@@ -4,11 +4,11 @@ snippet cmt
 	`substitute(substitute(&cms, '\s*%s\s*', ' '.repeat('-', 80 - strlen(substitute(&cms, '\s*%s\s*', '%s', ''))).' ', ''), ' $', '-', '')`
 	`substitute(&cms, '^\(\S*\)\s*%s\s*\(\S*\)$', '\1 ', '')`${1:$VISUAL}`substitute(substitute(&cms, '^\(\S*\)\s*%s\s*\(\S*\)$', ' \2', ''), '\s*$', '', '')`
 	`substitute(substitute(&cms, '\s*%s\s*', ' '.repeat('-', 80 - strlen(substitute(&cms, '\s*%s\s*', '%s', ''))).' ', ''), ' $', '-', '')`
-snippet modeline
-	`substitute(substitute(&cms, '\s*%s\s*', ' '.printf('vim: set ts=%d sw=%d tw=%d %set ft=%s :', &ts, &sw, &tw, &et ? '' : 'no', &ft).' ', ''), '\s*$', '', '')`
-snippet modeline-tab
-	`substitute(substitute(&cms, '\s*%s\s*', ' '.printf('vim: set ts=%d sw=%d tw=%d %set :', &ts, &sw, &tw, &et ? '' : 'no').' ', ''), '\s*$', '', '')`
-snippet modeline-ft
+snippet vim:full
+	`substitute(substitute(&cms, '\s*%s\s*', ' '.printf('vim: set sw=%d ts=%d sts=%d %set tw=%d ft=%s :', &sw, &ts, &sts, &et ? '' : 'no', &tw, &ft).' ', ''), '\s*$', '', '')`
+snippet vim:style
+	`substitute(substitute(&cms, '\s*%s\s*', ' '.printf('vim: set sw=%d ts=%d sts=%d %set tw=%d :', &sw, &ts, &sts, &et ? '' : 'no', &tw).' ', ''), '\s*$', '', '')`
+snippet vim:ft
 	`substitute(substitute(&cms, '\s*%s\s*', ' '.printf('vim: set ft=%s :', &ft).' ', ''), '\s*$', '', '')`
 snippet c)
 	Copyright `&enc[:2] == "utf" ? "©" : "(c)"` `strftime("%Y")` ${1:Author}. All Rights Reserved.

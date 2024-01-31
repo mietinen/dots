@@ -1,34 +1,16 @@
 #!/usr/bin/env bash
 
-usage() {
-    echo "usage: ${0##*/} [-a] [cmd]"
-    echo "open cmd in \$EDITOR, if readable and not binary"
-    echo "search \$PATH entrys in \$HOME directory"
-    echo
-    echo "options are:"
-    echo "   -a: search every \$PATH entry (very slow)"
-    exit 1
-}
+sel="$(command -v "$1" 2>/dev/null)"
 
-while getopts ":ha" opt; do
-    case $opt in
-        a) path="" ;;
-        *) usage ;;
-    esac
-done
-shift $((OPTIND-1))
-
-sel="$(command -v "$1")"
-
-if [ -f "$sel" ] && [ -r "$sel" ] && [ "$(file -bL --mime-encoding "$sel")" != "binary" ]; then
+if [ -r "$sel" ] && [ "$(file -bL --mime-encoding "$sel")" != "binary" ]; then
     sensible-editor "$sel"
 else
-    for cmd in $(find -L ${PATH//:/ } -maxdepth 1 -type f -path "${path-$HOME}/*" 2>/dev/null); do
+    for cmd in $(find -L ${PATH//:/ } -maxdepth 1 -type f -path "$HOME/*" 2>/dev/null); do
         [ -r "$cmd" ] || continue
         [ -x "$cmd" ] || continue
         [ "$(file -bL --mime-encoding "$sel")" != "binary" ] || continue
         printf -v allcmds "%s%s\n" "$allcmds" "$cmd"
     done
-    sel=$(echo "$allcmds" | fzf)
+    sel=$(echo "$allcmds" | fzf --query="$1")
     [ -f "$sel" ] && sensible-editor "$sel"
 fi
