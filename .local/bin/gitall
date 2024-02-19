@@ -8,31 +8,26 @@ usage() {
     echo "    -a  if combined with status, print all found repositories"
     exit 0
 }
+test $# -lt 1 && usage
 
 while getopts ":afs" opt; do
     case $opt in
         a) statusall=true ;;
-        f) fetch=true run=true ;;
-        s) status=true run=true ;;
+        f) fetch=true ;;
+        s) status=true ;;
         *) usage ;;
     esac
 done
 shift $((OPTIND-1))
 
-# need fetch or status to run
-[ "$run" = true ] || usage
-
-find "$PWD" ! -path '*/.*/*' -a -name .git -type d | while read -r d; do
-    # git fetch
-    [ "$fetch" = true ] && git --git-dir="$d" fetch -q
-
-    # git status
+find "$PWD" ! -path '*/.*/*' -a -name .git -type d | while read -r dir; do
+    path="${dir%/.git*}"
+    [ "$fetch" = true ] && git -C "$path" fetch -q
     if [ "$status" = true ]; then
-        w="${d%/.git*}"
-        git="$(git --git-dir="$d" --work-tree="$w" -c color.status=always status -sb)"
+        git="$(git -C "$path" -c color.status=always status -sb)"
         if [ "$statusall" = true ] || [ "$(echo "$git" | wc -l)" -gt 1 ] || \
             [ "$(echo "$git" | grep -c "ahead\|behind")" -gt 0 ]; then
-                    echo "repo: ${w/#$HOME/\~}"
+                    echo "repo: ${path/#$HOME/\~}"
                     echo "$git" | sed ';s/^/      /g'
                     echo
         fi
