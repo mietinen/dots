@@ -59,9 +59,8 @@ vim.keymap.set('v', 'K', ":m '<-2<CR>gv=gv")
 -- -----------------------------------------------------------------------------
 -- Autocmd
 -- -----------------------------------------------------------------------------
-local ft = vim.api.nvim_create_augroup('FTStuff', { clear = true })
 vim.api.nvim_create_autocmd('FileType', {
-    group = ft,
+    group = vim.api.nvim_create_augroup('FTStuff', { clear = true }),
     callback = function(args)
         local m = args.match
         if m == 'markdown' then

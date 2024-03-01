@@ -40,14 +40,12 @@ unset -f add_path
 # ------------------------------------------------------------------------------
 # SSH AGENT
 # ------------------------------------------------------------------------------
-if [ -z "$SSH_AUTH_SOCK" ] || [ "$(ssh-add -l >/dev/null 2>&1; echo $?)" -eq 2 ]; then
-    if [ -n "$WAYLAND_DISPLAY$DISPLAY" ] && command -v gnome-keyring-daemon >/dev/null; then
-        eval $(gnome-keyring-daemon --start) >/dev/null
-        export SSH_AUTH_SOCK
-    elif [ -t 0 ] && command -v ssh-agent >/dev/null; then
-        eval $(ssh-agent -s) >/dev/null
-        trap 'kill $SSH_AGENT_PID' EXIT
-    fi
+if [ -S "$XDG_RUNTIME_DIR/gcr/ssh" ] && pgrep -fu "$(whoami)" gnome-keyring-daemon >/dev/null; then
+    export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/gcr/ssh"
+fi
+if [ "$(ssh-add -l >/dev/null 2>&1; echo $?)" -eq 2 ] && command -v ssh-agent >/dev/null; then
+    eval $(ssh-agent -s) >/dev/null
+    trap 'kill $SSH_AGENT_PID' EXIT
 fi
 
 # ------------------------------------------------------------------------------
