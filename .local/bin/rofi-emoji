@@ -14,19 +14,23 @@ while [ ! -s "$file" ]; do
             }' > "$file"
         unset dl
     else
-        notify-send "Rofiunicode" "Error downloading emoji file from unicode.org"
+        notify-send "rofi-emoji" "Error downloading emoji file from unicode.org"
         exit 1
     fi
 done
 
-if [ "$#" -lt 1 ]; then
-    echo -en "\x00prompt\x1fSelect emoji\n"
-    cat "$file"
-else
-    chosen="${1%%[[:space:]]*}"
-    [ -z "$chosen" ] && exit 0
-    coproc {
-        printf "%s" "$chosen" | xclip -selection clipboard
-        notify-send "Rofiunicode" "'$chosen' copied to clipboard."
-    } >/dev/null 2>&1
-fi
+case "$ROFI_RETV" in
+    0) # Initial call of script
+        echo -en "\x00prompt\x1fSelect emoji\n"
+        cat "$file"
+        ;;
+    1) # Selected an entry
+        chosen="${1%%[[:space:]]*}"
+        [ -z "$chosen" ] && exit 0
+        coproc {
+            printf "%s" "$chosen" | xclip -selection clipboard
+            notify-send "rofi-emoji" "'$chosen' copied to clipboard."
+        } >/dev/null 2>&1
+        ;;
+    *)  echo "error: need to run from rofi" ; exit 1 ;;
+esac

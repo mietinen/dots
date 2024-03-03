@@ -1,13 +1,16 @@
 #!/usr/bin/env bash
 
-if [ "$#" -lt 1 ]; then
-    echo -en "\x00prompt\x1fSelect man page\n"
-    man -k . | awk '{ print $1 }'
-else
-    tempfile=$(mktemp)
-    man -Tpdf "$*" > "$tempfile"
-    coproc {
-        zathura "$tempfile"
-        rm -f "$tempfile"
-    } >/dev/null 2>&1
-fi
+case "$ROFI_RETV" in
+    0) # Initial call of script
+        echo -en "\x00prompt\x1fSelect man page\n"
+        man -k . | awk '{ print $1 }'
+        ;;
+    1) # Selected an entry
+        tempfile=$(mktemp)
+        man -Tpdf "$*" > "$tempfile"
+        coproc {
+            zathura "$tempfile"
+        } >/dev/null 2>&1
+        ;;
+    *)  echo "error: need to run from rofi" ; exit 1 ;;
+esac

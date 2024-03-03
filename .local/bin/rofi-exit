@@ -1,15 +1,22 @@
 #!/usr/bin/env bash
 
-case "$*" in
-    "Lock screen") coproc { light-locker-command --lock; } ;;
-    "Exit/logout") coproc { awesome-client 'awesome.quit()' >/dev/null 2>&1; } ;;
-    "Suspend") coproc { systemctl suspend; } ;;
-    "Reboot") coproc { systemctl reboot; } ;;
-    "Shutdown") coproc { systemctl poweroff -i; } ;;
-    *)  echo -en "\x00prompt\x1fSystem exit\n"
+case "$ROFI_RETV" in
+    0) # Initial call of script
+        echo -en "\x00prompt\x1fSystem exit\n"
         echo "Lock screen"
         echo "Exit/logout"
         echo "Suspend"
         echo "Reboot"
         echo "Shutdown"
+        ;;
+    1) # Selected an entry
+        case "$*" in
+            "Lock screen") coproc { light-locker-command --lock; } ;;
+            "Exit/logout") coproc { awesome-client 'awesome.quit()' >/dev/null 2>&1; } ;;
+            "Suspend") coproc { systemctl suspend; } ;;
+            "Reboot") coproc { systemctl reboot; } ;;
+            "Shutdown") coproc { systemctl poweroff -i; } ;;
+        esac
+        ;;
+    *)  echo "error: need to run from rofi" ; exit 1 ;;
 esac

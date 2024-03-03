@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+
+case "$ROFI_RETV" in
+    0) # Initial call of script
+        echo -en "\0prompt\x1fSelect default sink\n"
+        wpctl status -k \
+            | sed -n 's/[├─│└]*//g;/Sinks:$/,/^[[:space:]]*$/p' \
+            | sed -n 's/[[:space:]]*\(.*\)[[:space:]]*\[vol.*/\1/p' \
+            | sed 's/^[[:space:]]*//;s/[[:space:]]*$//;s/[[:space:]]\+/ /g' \
+            | sed 's/\([[:digit:]]\+\)\.[[:space:]]*\(.*\)/\2\x0info\x1f\1/;/^*/!H;//p;$!d;g;s/\n//'
+        ;;
+    1) # Selected an entry
+        if [ "$ROFI_INFO" -gt 0 ]; then
+            coproc {
+                wpctl set-default "$ROFI_INFO"
+                notify-send "rofi-sink" "Default audio sink set to:\n[$ROFI_INFO] $*"
+            } >/dev/null 2>&1
+        fi
+        ;;
+    *)  echo "error: need to run from rofi" ; exit 1 ;;
+esac

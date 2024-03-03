@@ -357,6 +357,11 @@ globalkeys = gears.table.join(
         {description = "Rofi NetworkManager", group = "Rofi apps"}
     ),
 
+    awful.key({ modkey }, "a",
+        function() awful.spawn("rofi -show sink") end,
+        {description = "Rofi audio sink menu", group = "Rofi apps"}
+    ),
+
     awful.key({ modkey }, "x",
         function() awful.spawn("rofi -show emoji") end,
         {description = "Rofi emoji menu", group = "Rofi apps"}

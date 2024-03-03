@@ -1,5 +1,5 @@
 configuration {
-    modes: "window,drun,run,ssh,exit:rofi-exit,man:rofi-man,emoji:rofi-emoji,editconfig:rofi-editconfig";
+    modes: "window,drun,run,ssh,exit:rofi-exit,man:rofi-man,emoji:rofi-emoji,editconfig:rofi-editconfig,sink:rofi-sink";
     font: "monospace 10";
 }
 @theme "gruvbox-dark-hard"
