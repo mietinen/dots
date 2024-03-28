@@ -27,5 +27,4 @@ return {
     { 'dcampos/cmp-snippy', dependencies = 'dcampos/nvim-snippy' },
     'hrsh7th/cmp-nvim-lsp',
     'hrsh7th/cmp-buffer',
-
 }
