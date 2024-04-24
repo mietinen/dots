@@ -646,7 +646,7 @@ awful.rules.rules = {
                 "Kruler",
                 "MessageWin",
                 "Sxiv",
-                "Tor Browser",
+                -- "Tor Browser",
                 "Wpa_gui",
                 "veromix",
                 "xtightvncviewer"
