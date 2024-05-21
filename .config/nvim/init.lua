@@ -2,7 +2,6 @@
 -- Settings
 -- -----------------------------------------------------------------------------
 vim.cmd.syntax('on')
-vim.opt.go = 'a'
 vim.opt.encoding = 'utf-8'
 vim.opt.mouse = 'niv'
 vim.opt.clipboard:append 'unnamedplus'
