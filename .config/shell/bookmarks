@@ -10,10 +10,12 @@
 # ------------------------------------------------------------------------------
 bm_dirs=(
     "$HOME"
+    "$HOME/Code"
+    "$HOME/Code/*"
+    "$HOME/Stuff"
+    "$HOME/Stuff/*"
     "${XDG_DOCUMENTS_DIR:-$HOME/Documents}"
     "${XDG_DOCUMENTS_DIR:-$HOME/Documents}/*"
-    "${XDG_DOCUMENTS_DIR:-$HOME/Documents}/code/*"
-    "${XDG_DOCUMENTS_DIR:-$HOME/Documents}/htb/*"
     "${XDG_DOWNLOAD_DIR:-$HOME/Downloads}"
     "${XDG_MUSIC_DIR:-$HOME/Music}"
     "${XDG_PICTURES_DIR:-$HOME/Pictures}"

@@ -17,7 +17,7 @@ export ZDOTDIR="${XDG_CONFIG_HOME:-$HOME/.config}/shell"
 export GTK2_RC_FILES="${XDG_CONFIG_HOME:-$HOME/.config}/gtk-2.0/gtkrc"
 export TMUX_TMPDIR="$XDG_RUNTIME_DIR"
 export GOPATH="${XDG_DATA_HOME:-$HOME/.local/share}/go"
-export ZK_NOTEBOOK_DIR="${XDG_DOCUMENTS_DIR:-$HOME/Documents}/notes"
+export ZK_NOTEBOOK_DIR="$HOME/Stuff/notes"
 export LESSHISTFILE="-"
 export LS_COLORS="ow=30;42" # fix unreadable blue on green
 export LIBVIRT_DEFAULT_URI="qemu:///system"

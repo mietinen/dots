@@ -17,7 +17,8 @@ if [ "$usessh" != "${usessh#[Yy]}" ]; then
     # Generate SSH key if it doesn't exist
     [ -f ~/.ssh/id_ed25519.pub ] || ssh-keygen -a 100 -t ed25519 -f ~/.ssh/id_ed25519
     echo "Copy SSH key and add you your git remote and press enter to continue."
-    command -v xclip >/dev/null && xclip -sel clip < ~/.ssh/id_ed25519.pub
+    xclip -selection clipboard < ~/.ssh/id_ed25519.pub 2>/dev/null
+    wl-copy < ~/.ssh/id_ed25519.pub 2>/dev/null
     cat ~/.ssh/id_ed25519.pub
     read -r
     giturl="$git_url_ssh"

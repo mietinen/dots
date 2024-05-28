@@ -28,7 +28,8 @@ case "$ROFI_RETV" in
         chosen="${1%%[[:space:]]*}"
         [ -z "$chosen" ] && exit 0
         coproc {
-            printf "%s" "$chosen" | xclip -selection clipboard
+            printf "%s" "$chosen" | xclip -selection clipboard 2>/dev/null
+            printf "%s" "$chosen" | wl-copy 2>/dev/null
             notify-send "rofi-emoji" "'$chosen' copied to clipboard."
         } >/dev/null 2>&1
         ;;
