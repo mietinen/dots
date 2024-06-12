@@ -47,9 +47,10 @@ local function worker(args)
 
         local mem_used = memtotal + shmem - memfree - buffers - cached - sreclaimable
         local mem_percent = math.floor((100 * mem_used / memtotal) + 0.5)
-        local mem_text = string.format("%.1fG/%.1fG", mem_used / 1048576, memtotal / 1048576)
+        -- local mem_text = string.format("%.1fG/%.1fG", mem_used / 1048576, memtotal / 1048576)
 
-        widget:get_children_by_id('text')[1].markup = mem_percent.."% ("..mem_text..")"
+        -- widget:get_children_by_id('text')[1].markup = mem_percent.."% ("..mem_text..")"
+        widget:get_children_by_id('text')[1].markup = mem_percent.."%"
     end
     timer = gears.timer {
         timeout = timeout,

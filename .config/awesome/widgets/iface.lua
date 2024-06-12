@@ -77,7 +77,8 @@ local function worker(args)
             widget:get_children_by_id('icon')[1].image = path_to_icons.."network-offline-symbolic.svg"
             signal = ""
         end
-        widget:get_children_by_id('text')[1].markup = signal.." (↓"..rxspeed.." ↑"..txspeed..")"
+        -- widget:get_children_by_id('text')[1].markup = signal.." (↓"..rxspeed.." ↑"..txspeed..")"
+        widget:get_children_by_id('text')[1].markup = signal
     end
 
     local notification
