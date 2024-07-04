@@ -47,7 +47,7 @@ alias   cp='cp -i' \
         open='xdg-open' \
         sudovimdiff='SUDO_EDITOR="nvim -d" sudoedit' \
         notes='zk edit --interactive --sort modified' \
-        wget='curl -OJLR' \
+        wcurl='curl -OJLR' \
         nettfart='speedtest -s 20209' \
         xod='od --endian=big -t x2z' \
         newsboat='newsboat -q'
