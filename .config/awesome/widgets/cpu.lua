@@ -16,7 +16,7 @@ local function worker(args)
     local timeout_temp = args.timeout_temp or 10
     local margin = args.margin or 3
 
-    local get_temp_cmd = args.get_temp_cmd or [[bash -c "sensors | awk '/Package id 0/ {printf(\"%.0f\n\", \$4)}'"]]
+    local get_temp_cmd = args.get_temp_cmd or [[cat /sys/class/thermal/thermal_zone0/temp]]
     local get_ps_cmd = args.get_ps_cmd or [[bash -c "ps axc -eo pid,cmd:20,%cpu,%mem --sort=-%cpu | head -n 11"]]
 
     widget = wibox.widget {
@@ -70,7 +70,8 @@ local function worker(args)
 
     local update_temp = function(widget, stdout, _, _, _)
         local temp = string.match(stdout, "(%d+)")
-        widget:get_children_by_id('text_temp')[1].markup = " ("..temp.."°)"
+        if temp == nil then return end
+        widget:get_children_by_id('text_temp')[1].markup = " ("..(temp / 1000).."°)"
     end
     watch(get_temp_cmd, timeout_temp, update_temp, widget)
 
