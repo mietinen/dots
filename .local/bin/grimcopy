@@ -1,0 +1,15 @@
+#!/bin/sh
+
+# XDG user dirs
+. "${XDG_CONFIG_HOME:-$HOME/.config}/user-dirs.dirs" 2>/dev/null
+folder="${XDG_PICTURES_DIR:-$HOME/Pictures}/screenshots"
+file="$(date +'%F-%H%M%S_grim.png')"
+
+mkdir -p "$folder"
+case "$1" in
+    "select") grim -g "$(slurp)" "$folder/$file" ;;
+    "screen") grim -g "$(slurp -o)" "$folder/$file" ;;
+    *) grim "$folder/$file" ;;
+esac
+
+wl-copy < "$folder/$file"

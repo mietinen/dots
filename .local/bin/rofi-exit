@@ -11,8 +11,8 @@ case "$ROFI_RETV" in
         ;;
     1) # Selected an entry
         case "$*" in
-            "Lock screen") coproc { light-locker-command --lock; } ;;
-            "Exit/logout") coproc { awesome-client 'awesome.quit()' >/dev/null 2>&1; } ;;
+            "Lock screen") coproc { loginctl lock-session; } ;;
+            "Exit/logout") coproc { hyprctl dispatch exit >/dev/null 2>&1; } ;;
             "Suspend") coproc { systemctl suspend; } ;;
             "Reboot") coproc { systemctl reboot; } ;;
             "Shutdown") coproc { systemctl poweroff -i; } ;;

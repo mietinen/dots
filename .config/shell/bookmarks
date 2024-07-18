@@ -23,7 +23,7 @@ bm_dirs=(
     "${XDG_VIDEOS_DIR:-$HOME/Videos}"
     "${XDG_CONFIG_HOME:-$HOME/.config}"
     "${XDG_CONFIG_HOME:-$HOME/.config}/alacritty"
-    "${XDG_CONFIG_HOME:-$HOME/.config}/awesome"
+    "${XDG_CONFIG_HOME:-$HOME/.config}/hypr"
     "${XDG_CONFIG_HOME:-$HOME/.config}/desktop"
     "${XDG_CONFIG_HOME:-$HOME/.config}/nvim"
     "${XDG_CONFIG_HOME:-$HOME/.config}/shell"
@@ -37,7 +37,9 @@ bm_dirs=(
 # ------------------------------------------------------------------------------
 bm_files=(
     "${XDG_CONFIG_HOME:-$HOME/.config}/alacritty/**"
-    "${XDG_CONFIG_HOME:-$HOME/.config}/awesome/**"
+    "${XDG_CONFIG_HOME:-$HOME/.config}/hypr/*"
+    "${XDG_CONFIG_HOME:-$HOME/.config}/mako/*"
+    "${XDG_CONFIG_HOME:-$HOME/.config}/waybar/*"
     "${XDG_CONFIG_HOME:-$HOME/.config}/desktop/*"
     "${XDG_CONFIG_HOME:-$HOME/.config}/fontconfig/*"
     "${XDG_CONFIG_HOME:-$HOME/.config}/git/*"

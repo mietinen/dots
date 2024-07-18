@@ -1,0 +1,2 @@
+[binds]
+w = exec sethyprpaper $imv_current_file

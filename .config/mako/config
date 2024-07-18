@@ -1,0 +1,19 @@
+sort=-time
+layer=overlay
+background-color=#282828
+text-color=#ebdbb2
+width=300
+height=110
+border-size=1
+border-color=#83a598
+border-radius=5
+icons=1
+max-icon-size=64
+default-timeout=5000
+ignore-timeout=1
+font=monospace 10
+
+[urgency=high]
+border-color=#cc241d
+border-size=2
+default-timeout=0
