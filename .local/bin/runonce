@@ -3,4 +3,4 @@
 command -v "$1" >/dev/null || exit 1
 pgrep -fu "$(whoami)" "^$1" >/dev/null && exit 1
 
-setsid -f "$@"
+exec "$@"

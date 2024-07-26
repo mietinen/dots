@@ -13,7 +13,7 @@
         "hyprland/window"
     ],
     "modules-right": [
-        "pulseaudio",
+        "wireplumber",
         "network",
         "power-profiles-daemon",
         "cpu",
@@ -44,18 +44,35 @@
             "focused": "",
             "default": ""
         },
-       "persistent-workspaces": {
-             "*": 9
-       }
+        "persistent-workspaces": {
+            "*": 9
+        }
     },
     "tray": {
         // "icon-size": 21,
         "spacing": 10
     },
     "clock": {
-        // "timezone": "America/New_York",
-        "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
-        "format-alt": "{:%Y-%m-%d}"
+        "format": "{:%a %b %d, %H:%M}",
+        "tooltip-format": "<big>{calendar}</big>",
+        "calendar": {
+            "mode-mon-col"  : 3,
+            "weeks-pos"     : "left",
+            "on-scroll"     : 1,
+            "format": {
+                "months":     "<span color='#fe8019'>{}</span>",
+                // "days":       "<span color='#fabd2f'>{}</span>",
+                "weeks":      "<span color='#d79921'>W{}</span>",
+                "weekdays":   "<span color='#fabd2f'>{}</span>",
+                "today":      "<span color='#d3869b'><u>{}</u></span>"
+            }
+        },
+        "actions": {
+            "on-click": "mode",
+            "on-click-right": "shift_reset",
+            "on-scroll-up": "shift_up",
+            "on-scroll-down": "shift_down"
+        }
     },
     "cpu": {
         "format": "{usage}% ",
@@ -70,7 +87,7 @@
         "critical-threshold": 80,
         // "format-critical": "{temperatureC}°C {icon}",
         "format": "{temperatureC}°C {icon}",
-        "format-icons": ["", "", ""]
+        "format-icons": ["", "", "", "", ""]
     },
     "backlight": {
         // "device": "acpi_video1",
@@ -96,42 +113,32 @@
         "bat": "BAT2"
     },
     "power-profiles-daemon": {
-      "format": "{icon}",
-      "tooltip-format": "Power profile: {profile}\nDriver: {driver}",
-      "tooltip": true,
-      "format-icons": {
-        "default": "",
-        "performance": "",
-        "balanced": "",
-        "power-saver": ""
-      }
+        "format": "{icon}",
+        "tooltip-format": "Power profile: {profile}\nDriver: {driver}",
+        "tooltip": true,
+        "format-icons": {
+            "default": "",
+            "performance": "",
+            "balanced": "",
+            "power-saver": ""
+        }
     },
     "network": {
-        // "interface": "wlp2*", // (Optional) To force the use of this interface
-        "format-wifi": "{essid} ({signalStrength}%) ",
-        "format-ethernet": "{ipaddr}/{cidr} ",
-        "tooltip-format": "{ifname} via {gwaddr} ",
-        "format-linked": "{ifname} (No IP) ",
-        "format-disconnected": "Disconnected ⚠",
-        "format-alt": "{ifname}: {ipaddr}/{cidr}"
+        "format": "󰛵",
+        "format-ethernet": "",
+        "format-wifi": "{signalStrength}% ",
+        "format-disconnected": "󰲛",
+        "tooltip-format": "Interface:  {ifname}\nLocal:      {ipaddr}/{cidr}\nGW:         {gwaddr}\n\nDown:       {bandwidthDownBytes}\nUp:         {bandwidthUpBytes}",
+        "tooltip-format-wifi": "{essid} ({frequency}GHz): {signaldBm}dBm\n\nInterface:  {ifname}\nLocal:      {ipaddr}/{cidr}\nGW:         {gwaddr}\n\nDown:       {bandwidthDownBytes}\nUp:         {bandwidthUpBytes}",
+        "tooltip-format-disconnected": "Disconnected"
     },
-    "pulseaudio": {
-        // "scroll-step": 1, // %, can be a float
-        "format": "{volume}% {icon} {format_source}",
-        "format-bluetooth": "{volume}% {icon} {format_source}",
-        "format-bluetooth-muted": " {icon} {format_source}",
-        "format-muted": " {format_source}",
-        "format-source": "{volume}% ",
-        "format-source-muted": "",
-        "format-icons": {
-            "headphone": "",
-            "hands-free": "",
-            "headset": "",
-            "phone": "",
-            "portable": "",
-            "car": "",
-            "default": ["", "", ""]
-        },
-        "on-click": "pavucontrol"
+    "wireplumber": {
+        "format": "{volume}% {icon}",
+        "format-muted": " ",
+        "format-icons": ["", "", ""],
+        "on-click": "volumectl toggle",
+        "on-click-right": "volumectl control",
+        "on-scroll-up": "volumectl up",
+        "on-scroll-down": "volumectl down"
     }
 }
