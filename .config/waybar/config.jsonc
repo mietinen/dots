@@ -15,7 +15,6 @@
     "modules-right": [
         "wireplumber",
         "network",
-        "power-profiles-daemon",
         "cpu",
         "temperature",
         "memory",
@@ -53,10 +52,10 @@
         "spacing": 10
     },
     "clock": {
-        "format": "{:%a %b %d, %H:%M}",
-        "tooltip-format": "<big>{calendar}</big>",
+        "format": "{:%H:%M} ",
+        "tooltip-format": "<span color='#b8bb26' size='large' weight='bold'>{:%A %d %B, %Y}</span>\n\n<tt>{calendar}</tt>",
         "calendar": {
-            "mode-mon-col"  : 3,
+            "mode-mon-col"  : 4,
             "weeks-pos"     : "left",
             "on-scroll"     : 1,
             "format": {
@@ -75,17 +74,13 @@
         }
     },
     "cpu": {
-        "format": "{usage}% ",
-        "tooltip": false
+        "format": "{usage}% "
     },
     "memory": {
         "format": "{}% "
     },
     "temperature": {
-        // "thermal-zone": 2,
-        // "hwmon-path": "/sys/class/hwmon/hwmon2/temp1_input",
         "critical-threshold": 80,
-        // "format-critical": "{temperatureC}°C {icon}",
         "format": "{temperatureC}°C {icon}",
         "format-icons": ["", "", "", "", ""]
     },
@@ -128,8 +123,8 @@
         "format-ethernet": "",
         "format-wifi": "{signalStrength}% ",
         "format-disconnected": "󰲛",
-        "tooltip-format": "Interface:  {ifname}\nLocal:      {ipaddr}/{cidr}\nGW:         {gwaddr}\n\nDown:       {bandwidthDownBytes}\nUp:         {bandwidthUpBytes}",
-        "tooltip-format-wifi": "{essid} ({frequency}GHz): {signaldBm}dBm\n\nInterface:  {ifname}\nLocal:      {ipaddr}/{cidr}\nGW:         {gwaddr}\n\nDown:       {bandwidthDownBytes}\nUp:         {bandwidthUpBytes}",
+        "tooltip-format": "Interface:  <span color='#689d6a'>{ifname}</span>\nLocal:      <span color='#b16286'>{ipaddr}</span>/{cidr}\nGW:         <span color='#d3869b'>{gwaddr}</span>\n\nDown:       <span color='#8ec07c'>{bandwidthDownBytes}</span>\nUp:         <span color='#8ec07c'>{bandwidthUpBytes}</span>",
+        "tooltip-format-wifi": "<span color='#b8bb26' weight='bold'>{essid} ({frequency}GHz): {signaldBm}dBm</span>\n\nInterface:  <span color='#689d6a'>{ifname}</span>\nLocal:      <span color='#b16286'>{ipaddr}</span>/{cidr}\nGW:         <span color='#d3869b'>{gwaddr}</span>\n\nDown:       <span color='#8ec07c'>{bandwidthDownBytes}</span>\nUp:         <span color='#8ec07c'>{bandwidthUpBytes}</span>",
         "tooltip-format-disconnected": "Disconnected"
     },
     "wireplumber": {
