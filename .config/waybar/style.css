@@ -4,7 +4,7 @@
 }
 
 window#waybar {
-    background: rgba(40, 40, 40, 0.8);
+    background-color: rgba(40, 40, 40, 0.8);
     border-bottom: 2px solid rgba(69, 133, 136, 0.8);
     color: #ebdbb2;
 }
@@ -15,51 +15,46 @@ window#waybar {
 #workspaces button {
     padding: 0 5px;
     border-radius: 5px;
-    background: rgba(66, 123, 88, 0.8);
+    background-color: rgba(66, 123, 88, 0.8);
     color: #ebdbb2;
 }
 
 #workspaces button.empty {
-    background: rgba(40, 40, 40, 0.8);
+    background-color: rgba(40, 40, 40, 0.8);
 }
 
 #workspaces button.active {
-    background: rgba(104, 157, 106, 0.8);
+    background-color: rgba(104, 157, 106, 0.8);
     border: 2px solid rgba(69, 133, 136, 0.8);
 }
 
 #workspaces button.urgent {
-    background: rgba(204, 36, 29, 0.8);
+    background-color: rgba(204, 36, 29, 0.8);
 }
 
 #idle_inhibitor, #pulseaudio, #wireplumber, #custom-openvpn, #network, #cpu, #memory, #temperature, #backlight, #battery, #clock, #tray {
     padding: 0 6px;
     border: 2px solid rgba(69, 133, 136, 0.8);
     border-radius: 5px;
-    background: rgba(66, 123, 88, 0.8);
+    background-color: rgba(66, 123, 88, 0.8);
     color: #ebdbb2;
 }
 
 @keyframes blink {
-    to {
-        background-color: rgba(235, 219, 178, 0.8);
-        color: #282828;
-    }
+    to { background-color: rgba(66, 123, 88, 0.8); }
 }
 
-/* #battery { */
-/*     background-color: rgba(235, 219, 178, 0.8); */
-/*     color: #282828; */
-/* } */
-
-/* #battery.charging { */
-/*     color: #282828; */
-/*     background-color: rgba(152, 151, 26, 0.8); */
-/* } */
-
 #battery.warning:not(.charging) {
-    background: rgba(204, 36, 29, 0.8);
-    color: #ebdbb2;
+    background-color: rgba(181, 118, 20, 0.8);
+    animation-name: blink;
+    animation-duration: 0.5s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+}
+
+#battery.critical:not(.charging) {
+    background-color: rgba(175, 58, 3, 0.8);
     animation-name: blink;
     animation-duration: 0.5s;
     animation-timing-function: linear;
@@ -70,6 +65,6 @@ window#waybar {
 tooltip {
     border: 2px solid rgba(69, 133, 136, 0.8);
     border-radius: 5px;
-    background: rgba(40, 40, 40, 0.8);
+    background-color: rgba(40, 40, 40, 0.8);
     color: #ebdbb2;
 }
