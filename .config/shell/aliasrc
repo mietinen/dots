@@ -3,11 +3,11 @@
 # ------------------------------------------------------------------------------
 # Dotfiles
 # ------------------------------------------------------------------------------
-alias   dots='git --git-dir="${XDG_DATA_HOME:-$HOME/.local/share}/dotfiles/dots" --work-tree="$HOME"' \
-        lazydots='lazygit --git-dir="${XDG_DATA_HOME:-$HOME/.local/share}/dotfiles/dots" --work-tree="$HOME"'
+alias   dots='git --git-dir="${XDG_DATA_HOME:-$HOME/.local/share}/dotfiles" --work-tree="$HOME"' \
+        lazydots='lazygit --git-dir="${XDG_DATA_HOME:-$HOME/.local/share}/dotfiles" --work-tree="$HOME"'
 
-alias   privs='git --git-dir="${XDG_DATA_HOME:-$HOME/.local/share}/dotfiles/private" --work-tree="$HOME"' \
-        lazyprivs='lazygit --git-dir="${XDG_DATA_HOME:-$HOME/.local/share}/dotfiles/private" --work-tree="$HOME"'
+alias   privinit='dots submodule update --init "$HOME/.private"' \
+        privstow='stow -t "$HOME" -d "$HOME/.private" . --adopt --no-folding'
 
 # ------------------------------------------------------------------------------
 # Use neovim > vim > vi

@@ -1,8 +1,7 @@
 #!/usr/bin/env bash
 
-git_url_ssh="git@github.com:mietinen"
-git_url_https="https://github.com/mietinen"
-git_repos=("dots" "private")
+git_url_ssh="git@github.com:mietinen/dots"
+git_url_https="https://github.com/mietinen/dots"
 
 # check if git is installed
 if ! command -v git >/dev/null; then
@@ -29,24 +28,28 @@ fi
 # Some misc setup
 cd "$HOME" || exit
 umask 077
+
 dotdir="${XDG_DATA_HOME:-$HOME/.local/share}/dotfiles"
-mkdir -p "$dotdir"
+if [ -d "$dotdir" ]; then
+    echo "${dotdir/#$HOME/\~} already exists, exiting." >&2
+    exit 1
+fi
+
 grep "^${dotdir/#$HOME\/}$" "$HOME/.gitignore" >/dev/null 2>&1 || \
     echo "${dotdir/#$HOME\/}" >> "$HOME/.gitignore"
 
-for repo in "${git_repos[@]}"; do
-    read -rep "Clone $repo repository? [y/N] " clone
-    [ "$clone" = "${clone#[Yy]}" ] && continue
-    if [ -d "$dotdir/$repo" ] ; then
-        echo "${dotdir/#$HOME/\~}/$repo already exists, skipping."
-    else
-        git clone --bare "$giturl/$repo.git" "$dotdir/$repo"
-        git --git-dir="$dotdir/$repo" --work-tree="$HOME" config --local status.showUntrackedFiles no
-        git --git-dir="$dotdir/$repo" --work-tree="$HOME" config --local remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"
-        git --git-dir="$dotdir/$repo" --work-tree="$HOME" checkout 2>&1 | grep -E "\s+\." | awk '{print $1}' | xargs -I{} rm -f "{}"
-        git --git-dir="$dotdir/$repo" --work-tree="$HOME" checkout
-        git --git-dir="$dotdir/$repo" --work-tree="$HOME" fetch
-        git --git-dir="$dotdir/$repo" --work-tree="$HOME" branch --set-upstream-to=origin/main main
-    fi
-    echo
-done
+git clone --bare "$giturl.git" "$dotdir"
+git --git-dir="$dotdir" --work-tree="$HOME" config --local status.showUntrackedFiles no
+git --git-dir="$dotdir" --work-tree="$HOME" config --local remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"
+git --git-dir="$dotdir" --work-tree="$HOME" checkout 2>&1 | grep -E "\s+\." | awk '{print $1}' | xargs -I{} rm -f "{}"
+git --git-dir="$dotdir" --work-tree="$HOME" checkout
+git --git-dir="$dotdir" --work-tree="$HOME" fetch
+git --git-dir="$dotdir" --work-tree="$HOME" branch --set-upstream-to=origin/main main
+
+command -v stow >/dev/null || exit 0
+echo
+read -rep "Initialize private submodule? [y/N] " submodule
+[ "$submodule" = "${submodule#[Yy]}" ] && exit 0
+
+git --git-dir="$dotdir" --work-tree="$HOME" submodule update --init "$HOME/.private"
+stow -t "$HOME" -d "$HOME/.private" . --adopt --no-folding
