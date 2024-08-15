@@ -1,9 +1,10 @@
 [Desktop Entry]
 Type=Application
+GenericName=File manager
 Name=lf
 Comment=Launches the lf file manager
 Icon=utilities-terminal
-Terminal=false
-Exec=sensible-terminal -e lf %F
+Terminal=true
+Exec=lf %F
 Categories=ConsoleOnly;System;FileTools;FileManager
 MimeType=inode/directory;
