@@ -1,0 +1,8 @@
+text/plain; $EDITOR %s;
+image/*; xdg-open %s; test=test -n "$DISPLAY";
+video/*; xdg-open %s; test=test -n "$DISPLAY";
+audio/*; xdg-open %s; test=test -n "$DISPLAY";
+application/pdf; xdg-open %s; test=test -n "$DISPLAY";
+application/pdf; pdftotext -layout %s -; copiousoutput;
+text/html; xdg-open %s; test=test -n "$DISPLAY"; nametemplate=%s.html; needsterminal;
+text/html; lynx -assume_charset=%{charset} -display_charset=utf-8 -dump %s; nametemplate=%s.html; copiousoutput;
