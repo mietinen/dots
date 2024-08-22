@@ -11,6 +11,7 @@
 # set spool_file="+INBOX"
 # set postponed="+Drafts"
 # set record="+Sent"
+# set trash="+Trash"
 # set smtp_url="smtps://smtp.example.com"
 # set smtp_user="john@example.com"
 # set smtp_pass=`pass mail/example.com`
@@ -20,7 +21,7 @@ source "account"
 # ------------------------------------------------------------------------------
 # Settings
 # ------------------------------------------------------------------------------
-set editor='nvim'
+set editor="nvim"
 set sort="threads"
 unset ssl_starttls
 set imap_check_subscribed
@@ -91,14 +92,15 @@ bind pager,index                \CG         imap-fetch-mail
 bind attach                     l           view-mailcap
 bind attach                     <return>    view-mailcap
 # Sidebar
-bind pager,index                \Ck         sidebar-prev
-bind pager,index                \Cj         sidebar-next
-bind pager,index                \Co         sidebar-open
-bind pager,index                \Cp         sidebar-prev-new
-bind pager,index                \Cn         sidebar-next-new
+macro pager,index               \Ck         '<sidebar-prev><sidebar-open>'
+macro pager,index               \Cj         '<sidebar-next><sidebar-open>'
+macro pager,index               \Cp         '<sidebar-prev-new><sidebar-open>'
+macro pager,index               \Cn         '<sidebar-next-new><sidebar-open>'
 bind pager,index                B           sidebar-toggle-visible
-# Macros
+# Convenience
 macro pager,index               I           '<change-folder>!<enter>'
+macro pager,index               !           ';<save-message>+Junk<tab><enter><enter>'
+
 
 # ------------------------------------------------------------------------------
 # gruvbox dark (contrast dark)
