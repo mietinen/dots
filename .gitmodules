@@ -2,3 +2,4 @@
 	path = .private
 	url = ../private.git
 	update = merge
+    branch = main

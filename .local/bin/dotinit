@@ -52,4 +52,5 @@ read -rep "Initialize private submodule? [y/N] " submodule
 [ "$submodule" = "${submodule#[Yy]}" ] && exit 0
 
 git --git-dir="$dotdir" --work-tree="$HOME" submodule update --init "$HOME/.private"
+git --git-dir="$dotdir" --work-tree="$HOME" config --local submodule.recurse true
 stow -t "$HOME" -d "$HOME/.private" . --adopt --no-folding

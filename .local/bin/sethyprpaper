@@ -2,7 +2,7 @@
 
 if test -z "$1"; then
     notify-send "🖼️ Wallpaper" "Select wallpaper with 'w'"
-    imv "Stuff/wallpapers" "/usr/share/backgrounds"
+    imv -r "Stuff/wallpapers" "/usr/share/backgrounds"
     exit 0
 fi
 
