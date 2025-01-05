@@ -1,7 +1,11 @@
 #!/bin/sh
-# based on i3-sensible-terminal
+# This script is inspired by i3-sensible-terminal by i3 Han Boetes
+# <han@mijncomputer.nl>.
+
+# shellcheck disable=SC2153
 for terminal in "$TERMINAL" alacritty urxvt xterm st terminator xfce4-terminal gnome-terminal termit termite lxterminal mate-terminal terminology qterminal lilyterm tilix terminix konsole kitty guake tilda hyper; do
-    if command -v "$terminal" >/dev/null; then
-        exec "$terminal" "$@"
-    fi
+    command -v "$terminal" >/dev/null 2>&1 || continue
+    [ "$(command -v "$terminal")" = "$(command -v "$0")" ] && continue
+    # shellcheck disable=SC2093
+    exec "$terminal" "$@"
 done

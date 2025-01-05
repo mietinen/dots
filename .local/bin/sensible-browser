@@ -1,0 +1,11 @@
+#!/bin/sh
+# This script is inspired by i3-sensible-terminal by i3 Han Boetes
+# <han@mijncomputer.nl>.
+
+# shellcheck disable=SC2153
+for browser in $BROWSER firefox firefox-developer-edition chromium google-chrome google-chrome-stable brave opera vivaldi lynx w3m elinks; do
+    command -v "$browser" >/dev/null 2>&1 || continue
+    [ "$(command -v "$browser")" = "$(command -v "$0")" ] && continue
+    # shellcheck disable=SC2093
+    exec "$browser" "$@"
+done

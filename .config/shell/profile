@@ -7,6 +7,7 @@ export EDITOR="nvim"
 export VISUAL="nvim"
 export TERMINAL="alacritty"
 export BROWSER="firefox"
+command -v nvim >/dev/null && export MANPAGER="nvim +Man!"
 
 # ------------------------------------------------------------------------------
 # Misc env exports and ~/ clean-up

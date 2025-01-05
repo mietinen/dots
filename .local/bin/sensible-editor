@@ -1,7 +1,11 @@
 #!/bin/sh
-# based on i3-sensible-editor
+# This script is inspired by i3-sensible-editor by i3 Han Boetes
+# <han@mijncomputer.nl>.
+
+# shellcheck disable=SC2153
 for editor in "$VISUAL" "$EDITOR" nvim vim vi emacs nano pico gvim gedit mousepad; do
-    if command -v "$editor" >/dev/null; then
-        exec "$editor" "$@"
-    fi
+    command -v "$editor" >/dev/null 2>&1 || continue
+    [ "$(command -v "$editor")" = "$(command -v "$0")" ] && continue
+    # shellcheck disable=SC2093
+    exec "$editor" "$@"
 done
