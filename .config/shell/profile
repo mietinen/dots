@@ -12,7 +12,6 @@ command -v nvim >/dev/null && export MANPAGER="nvim +Man!"
 # ------------------------------------------------------------------------------
 # Misc env exports and ~/ clean-up
 # ------------------------------------------------------------------------------
-export XINITRC="${XDG_CONFIG_HOME:-$HOME/.config}/desktop/xinitrc"
 export XCURSOR_SIZE="16"
 export ZDOTDIR="${XDG_CONFIG_HOME:-$HOME/.config}/shell"
 export GTK2_RC_FILES="${XDG_CONFIG_HOME:-$HOME/.config}/gtk-2.0/gtkrc"
@@ -21,6 +20,8 @@ export GOPATH="${XDG_DATA_HOME:-$HOME/.local/share}/go"
 export ZK_NOTEBOOK_DIR="$HOME/Stuff/notes"
 export LESSHISTFILE="-"
 export LS_COLORS="ow=30;42" # fix unreadable blue on green
+export LYNX_CFG="${XDG_CONFIG_HOME:-$HOME/.config}/lynx/lynx.cfg"
+export LYNX_LSS="${XDG_CONFIG_HOME:-$HOME/.config}/lynx/lynx.lss"
 export LIBVIRT_DEFAULT_URI="qemu:///system"
 export QT_QPA_PLATFORMTHEME="qt5gtk2"
 export QT_AUTO_SCREEN_SCALE_FACTOR=0

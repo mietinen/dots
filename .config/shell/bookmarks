@@ -44,6 +44,7 @@ bm_files=(
     "${XDG_CONFIG_HOME:-$HOME/.config}/git/*"
     "${XDG_CONFIG_HOME:-$HOME/.config}/khard/*"
     "${XDG_CONFIG_HOME:-$HOME/.config}/lf/*"
+    "${XDG_CONFIG_HOME:-$HOME/.config}/lynx/*"
     "${XDG_CONFIG_HOME:-$HOME/.config}/networkmanager-dmenu/*"
     "${XDG_CONFIG_HOME:-$HOME/.config}/newsboat/*"
     "${XDG_CONFIG_HOME:-$HOME/.config}/neomutt/*"

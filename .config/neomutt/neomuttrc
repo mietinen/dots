@@ -100,8 +100,8 @@ macro pager,index                   \Cp         '<sidebar-prev-new><sidebar-open
 macro pager,index                   \Cn         '<sidebar-next-new><sidebar-open>'
 bind pager,index                    B           sidebar-toggle-visible
 # Convenience
-macro pager,index                   I           '<change-folder>!<enter>'
-macro pager,index                   !           ';<save-message>+Junk<tab><enter><enter>'
+macro pager,index                   I           '<change-folder>!<enter>'   'Jump to Inbox'
+macro pager,index                   !           's+Junk<tab><enter><enter>' 'Move to Spam'
 
 
 # ------------------------------------------------------------------------------
@@ -137,12 +137,11 @@ color sidebar_unread            color142 default
 color sidebar_highlight         color208 default
 
 color index_number              color240 default
-color index_author              color214 default '.*'
-color index_subject             color142 default '.*'
-color index         bold        color223 default '~N'
-color index_flags   bold        color142 default '~N'
-color index_author  bold        color214 default '~N'
-color index_subject bold        color142 default '~N'
+color index_author              color214 default
+color index_subject             color142 default
+color index_author              color172 default '~P'
+color index         bold        default default '(~N|~U)'
+color index_flags               color214 default '~T'
 color index                     color240 default '~D'
 color index_flags               color167 default '~D'
 color index_author              color240 default '~D'

@@ -22,7 +22,7 @@ alias   pactable='expac -Q -H M --timefmt="%Y-%m-%d %T" "%l  %-12w  %-15m  %n (%
         pacdate='pactable | sort -n' \
         pacsize='pactable | sort -hk 4' \
         pacdep='expac -Q "%-25n\t%D"' \
-        pacclean='sudo pacman -Rnsu $(pacman -Qtdq)' \
+        pacclean='pacman -Qtdq > /dev/null && sudo pacman -Rnsu $(pacman -Qtdq)' \
         paruedit='paru --fm $EDITOR' \
         updmirror='reflector -a 48 -c no,se,dk,fi,de,nl,be,fr,pl,at,gb -p https --sort country | sudo tee /etc/pacman.d/mirrorlist'
 

@@ -53,7 +53,7 @@
     },
     "clock": {
         "format": "{:%H:%M} ",
-        "tooltip-format": "<span color='#b8bb26' size='large' weight='bold'>{:%A %d %B, %Y}</span>\n\n<tt>{calendar}</tt>",
+        "tooltip-format": "<span color='#b8bb26' size='large' weight='bold'>{:%A %d. %B %Y}</span>\n\n<tt>{calendar}</tt>",
         "calendar": {
             "mode-mon-col"  : 4,
             "weeks-pos"     : "left",
