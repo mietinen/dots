@@ -18,5 +18,5 @@ case "$ROFI_RETV" in
             "Shutdown") coproc { systemctl poweroff -i; } ;;
         esac
         ;;
-    *)  echo "error: need to run from rofi" ; exit 1 ;;
+    "") rofi -show script -modes "script:$0" ;;
 esac

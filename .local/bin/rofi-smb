@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+
+case "$ROFI_RETV" in
+    0) # Initial call of script
+        echo -en "\x00prompt\x1fMount SMB\n"
+        for server in $(avahi-browse _smb._tcp -t 2>/dev/null | awk '{print $4}'); do
+            smbclient -L "$server" -N 2>/dev/null | grep Disk | awk "{print \"$server/\" \$1}"
+        done
+        ;;
+    1|2) # Selected an entry / Selected a custom entry
+        if result="$(gio mount "smb://$*" 2>&1)"; then
+            notify-send "SMB mount" "Mounted SMB share:\n$*"
+            exit 0
+        else
+            case "$result" in
+                *"already mounted"*) notify-send "SMB mount" "SMB share is already mounted:\n$*" ;;
+                *) notify-send "SMB mount" "SMB share not found:\n$*" ;;
+            esac
+            exit 1
+        fi
+        ;;
+    "") rofi -show script -modes "script:$0" ;;
+esac

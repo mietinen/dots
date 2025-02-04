@@ -17,5 +17,5 @@ case "$ROFI_RETV" in
             } >/dev/null 2>&1
         fi
         ;;
-    *)  echo "error: need to run from rofi" ; exit 1 ;;
+    "") rofi -show script -modes "script:$0" ;;
 esac
