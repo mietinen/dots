@@ -4,48 +4,50 @@
 }
 
 window#waybar {
-    background-color: rgba(40, 40, 40, 0.8);
-    border-bottom: 2px solid rgba(69, 133, 136, 0.8);
-    color: #ebdbb2;
+    background-color: alpha(#282828, 0.8);
+    border-bottom: 2px solid alpha(#458588, 0.8);
+    color: #fbf1c7;
 }
 
 #workspaces {
-    border-bottom: 2px solid rgba(69, 133, 136, 0.8);
+    border-bottom: 2px solid alpha(#458588, 0.8);
 }
 #workspaces button {
     padding: 0 5px;
+    background-color: alpha(#1d2021, 0.8);
+    border: 2px solid alpha(#458588, 0.8);
     border-radius: 5px;
-    background-color: rgba(66, 123, 88, 0.8);
-    color: #ebdbb2;
+    color: #fbf1c7;
 }
 
 #workspaces button.empty {
-    background-color: rgba(40, 40, 40, 0.8);
+    background-color: alpha(#282828, 0.8);
 }
 
 #workspaces button.active {
-    background-color: rgba(104, 157, 106, 0.8);
-    border: 2px solid rgba(69, 133, 136, 0.8);
+    background-color: alpha(#32302f, 0.8);
+    border: 2px solid alpha(#689d6a, 0.8);
+    color: #8ec07c;
 }
 
 #workspaces button.urgent {
-    background-color: rgba(204, 36, 29, 0.8);
+    border: 2px solid alpha(#d65d0e, 0.8);
 }
 
-#idle_inhibitor, #pulseaudio, #wireplumber, #custom-openvpn, #network, #cpu, #memory, #temperature, #backlight, #battery, #clock, #tray {
+#idle_inhibitor, #pulseaudio, #wireplumber, #custom-openvpn, #network, #cpu, #memory, #temperature, #backlight, #battery, #clock, #tray, #submap {
     padding: 0 5px;
-    border: 2px solid rgba(69, 133, 136, 0.8);
+    background-color: alpha(#1d2021, 0.8);
+    border: 2px solid alpha(#458588, 0.8);
     border-radius: 5px;
-    background-color: rgba(66, 123, 88, 0.8);
-    color: #ebdbb2;
+    color: #fbf1c7;
 }
 
 @keyframes blink {
-    to { background-color: rgba(66, 123, 88, 0.8); }
+    to { background-color: alpha(#427b58, 0.8); }
 }
 
 #battery.warning:not(.charging) {
-    background-color: rgba(181, 118, 20, 0.8);
+    color: #d65d0e;
     animation-name: blink;
     animation-duration: 0.5s;
     animation-timing-function: linear;
@@ -54,7 +56,7 @@ window#waybar {
 }
 
 #battery.critical:not(.charging) {
-    background-color: rgba(175, 58, 3, 0.8);
+    color: #cc2412;
     animation-name: blink;
     animation-duration: 0.5s;
     animation-timing-function: linear;
@@ -63,8 +65,8 @@ window#waybar {
 }
 
 tooltip {
-    border: 2px solid rgba(69, 133, 136, 0.8);
+    background-color: alpha(#282828, 0.8);
+    border: 2px solid alpha(#458588, 0.8);
     border-radius: 5px;
-    background-color: rgba(40, 40, 40, 0.8);
     color: #ebdbb2;
 }
