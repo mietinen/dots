@@ -7,9 +7,7 @@ if test -z "$1"; then
 fi
 
 setbg() {
-    hyprctl hyprpaper unload all >/dev/null
-    hyprctl hyprpaper preload "$1" >/dev/null
-    hyprctl hyprpaper wallpaper ",$1" >/dev/null
+    hyprctl hyprpaper reload ",$1" >/dev/null
     echo "preload = $1" >~/.config/hypr/hyprpaper.conf
     echo "wallpaper = ,$1" >>~/.config/hypr/hyprpaper.conf
     notify-send -i "$1" "Changing wallpaper..."

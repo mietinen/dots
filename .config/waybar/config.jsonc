@@ -72,6 +72,7 @@
                 "today":      "<span color='#d3869b'><u>{}</u></span>"
             }
         },
+        "smooth-scrolling-threshold": 2,
         "actions": {
             "on-click": "mode",
             "on-click-right": "shift_reset",
@@ -137,6 +138,7 @@
         "format": "{volume}% {icon}",
         "format-muted": " ",
         "format-icons": ["", "", ""],
+        "smooth-scrolling-threshold": 2,
         "on-click": "volumectl toggle",
         "on-click-right": "volumectl control",
         "on-scroll-up": "volumectl up",
