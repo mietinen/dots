@@ -19,5 +19,4 @@ case "$ROFI_RETV" in
             exit 1
         fi
         ;;
-    "") rofi -show script -modes "script:$0" ;;
 esac

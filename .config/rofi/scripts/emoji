@@ -33,5 +33,4 @@ case "$ROFI_RETV" in
             notify-send "rofi-emoji" "'$chosen' copied to clipboard."
         } >/dev/null 2>&1
         ;;
-    "") rofi -show script -modes "script:$0" ;;
 esac

@@ -18,5 +18,4 @@ case "$ROFI_RETV" in
             "Shutdown") coproc { systemctl poweroff -i; } ;;
         esac
         ;;
-    "") rofi -show script -modes "script:$0" ;;
 esac

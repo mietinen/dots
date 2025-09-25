@@ -1,6 +1,16 @@
 #!/bin/sh
 
+# Check if process is running
+# Kill if -k option, or else exit
+if [ "$1" = "-k" ]; then
+    shift
+    pkill -fu "$(whoami)" "^$1" >/dev/null
+    pidwait -fu "$(whoami)" "^$1" >/dev/null
+else
+    pgrep -fu "$(whoami)" "^$1" >/dev/null && exit 1
+fi
+
+# Exit if command dont exists
 command -v "$1" >/dev/null || exit 1
-pgrep -fu "$(whoami)" "^$1" >/dev/null && exit 1
 
 exec "$@"
