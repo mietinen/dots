@@ -1,32 +1,43 @@
 #!/usr/bin/env bash
 
 file="${XDG_DATA_HOME:-$HOME/.local/share}/emoji.txt"
-url="https://unicode.org/Public/emoji/15.1/emoji-test.txt"
+url="https://unicode.org/Public/emoji/latest/emoji-test.txt"
 
 # Download and parse emoji-test.txt from unicode.org if it doesn't exist
-dl="yes"
-while [ ! -s "$file" ]; do
-    if [ "$dl" = "yes" ]; then
-        curl -sSf "$url" 2>/dev/null | \
-            sed '{
-                /^\(#\|\s*$\)/d
-                s/.*#\s*\([^[:space:]]\+\)\s\+[^[:space:]]\+\s\+\(.*\)/\1\t\2/
-            }' > "$file"
-        unset dl
-    else
-        notify-send "rofi-emoji" "Error downloading emoji file from unicode.org"
-        exit 1
-    fi
-done
+download_emoji() {
+    local dl="yes"
+    while [ ! -s "$file" ]; do
+        if [ "$dl" = "yes" ]; then
+            curl -sSf "$url" 2>/dev/null | \
+                sed '{
+                    /^\(#\|\s*$\)/d
+                    s/.*#\s*\([^[:space:]]\+\)\s\+[^[:space:]]\+\s\+\(.*\)/\1\t\2/
+                }' > "$file"
+            unset dl
+        else
+            notify-send "rofi-emoji" "Error downloading emoji list from unicode.org"
+            return 1
+        fi
+    done
+}
+download_emoji || exit 1
 
 case "$ROFI_RETV" in
     0) # Initial call of script
         echo -en "\x00prompt\x1fSelect emoji\n"
         cat "$file"
+        echo "Update emoji list"
         ;;
     1) # Selected an entry
         chosen="${1%%[[:space:]]*}"
-        [ -z "$chosen" ] && exit 0
+        [ -z "$chosen" ] && exit 1
+        if [ "$chosen" = "Update" ]; then
+            coproc {
+                rm "$file"
+                download_emoji && notify-send "rofi-emoji" "Emoji list has been updated"
+            } >/dev/null 2>&1
+            exit 0
+        fi
         coproc {
             printf "%s" "$chosen" | xclip -selection clipboard 2>/dev/null
             printf "%s" "$chosen" | wl-copy 2>/dev/null
