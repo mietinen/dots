@@ -67,9 +67,9 @@ vim.api.nvim_create_autocmd('FileType', {
             vim.cmd.syntax('include @markdownTomlTop syntax/toml.vim')
             vim.cmd.syntax('region markdownTomlHead start=/\\%^+++$/ end=/^+++$/ keepend contains=@markdownTomlTop')
         elseif m == 'text' then vim.cmd.setlocal('wrap linebreak spell')
-        elseif m == 'php' then vim.cmd.setlocal('commentstring=//%s')
-        elseif m == 'xdefaults' then vim.cmd.setlocal('commentstring=!%s')
-        elseif m == 'htmldjango' then vim.cmd.setlocal('commentstring={#%s#}')
+        elseif m == 'php' then vim.cmd.setlocal('commentstring=// %s')
+        elseif m == 'xdefaults' then vim.cmd.setlocal('commentstring=! %s')
+        elseif m == 'htmldjango' then vim.cmd.setlocal('commentstring={# %s #}')
         end
         vim.cmd.set('formatoptions-=o foldmethod=manual')
     end
