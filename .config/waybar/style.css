@@ -34,7 +34,7 @@ window#waybar {
     border: 2px solid alpha(#d65d0e, 0.8);
 }
 
-#idle_inhibitor, #pulseaudio, #wireplumber, #custom-openvpn, #network, #cpu, #memory, #temperature, #backlight, #battery, #clock, #tray, #submap {
+#idle_inhibitor, #mpd, #pulseaudio, #wireplumber, #custom-openvpn, #network, #cpu, #memory, #temperature, #backlight, #battery, #clock, #tray, #submap {
     padding: 0 5px;
     background-color: alpha(#1d2021, 0.8);
     border: 2px solid alpha(#458588, 0.8);

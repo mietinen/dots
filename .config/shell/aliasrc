@@ -19,7 +19,7 @@ command -v vim >/dev/null && alias vi='vim'
 # Package stuff
 # ------------------------------------------------------------------------------
 alias   pactable='expac -Q -H M --timefmt="%Y-%m-%d %T" "%l  %-12w  %-15m  %n (%v)"' \
-        pacdate='pactable | sort -n' \
+        pacdate='(echo -e "$(uptime -s)  BOOT" ; pactable) | sort -n | grep "^\|BOOT$"' \
         pacsize='pactable | sort -hk 4' \
         pacdep='expac -Q "%-25n\t%D"' \
         pacclean='pacman -Qtdq > /dev/null && sudo pacman -Rnsu $(pacman -Qtdq)' \
