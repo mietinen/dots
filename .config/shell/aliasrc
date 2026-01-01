@@ -9,6 +9,9 @@ alias   dots='git --git-dir="${XDG_DATA_HOME:-$HOME/.local/share}/dotfiles/dots"
 alias   privs='git --git-dir="${XDG_DATA_HOME:-$HOME/.local/share}/dotfiles/private" --work-tree="$HOME"' \
         lazyprivs='lazygit --git-dir="${XDG_DATA_HOME:-$HOME/.local/share}/dotfiles/private" --work-tree="$HOME"'
 
+__git_complete dots __git_main 2>/dev/null
+__git_complete privs __git_main 2>/dev/null
+
 # ------------------------------------------------------------------------------
 # Use neovim > vim > vi
 # ------------------------------------------------------------------------------
