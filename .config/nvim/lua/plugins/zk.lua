@@ -1,3 +1,8 @@
+-- Only load for Neovim 0.11+
+if vim.fn.has('nvim-0.11') ~= 1 then
+    return {}
+end
+
 return {
     'zk-org/zk-nvim',
     dependencies = 'nvim-telescope/telescope.nvim',

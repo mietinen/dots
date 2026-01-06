@@ -1,3 +1,8 @@
+-- Only load for Neovim 0.11+
+if vim.fn.has('nvim-0.11') ~= 1 then
+    return {}
+end
+
 vim.api.nvim_create_autocmd('LspAttach', {
     group = vim.api.nvim_create_augroup('LspStuff', { clear = true }),
     callback = function(args)

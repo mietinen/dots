@@ -11,6 +11,7 @@
 .npm/
 .config/chromium/
 .config/discord/
+.config/FreeTube/
 .config/google-chrome/
 .config/libreoffice/
 .config/Signal/
