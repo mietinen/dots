@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-git_url_ssh="git@github.com:mietinen"
-git_url_https="https://github.com/mietinen"
+git_url_ssh="ssh://git@codeberg.org/mietinen"
+git_url_https="https://codeberg.org/mietinen"
 git_repos=("dots" "private")
 
 # check if git is installed
