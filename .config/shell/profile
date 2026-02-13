@@ -23,7 +23,7 @@ export LS_COLORS="ow=30;42" # fix unreadable blue on green
 export LYNX_CFG="${XDG_CONFIG_HOME:-$HOME/.config}/lynx/lynx.cfg"
 export LYNX_LSS="${XDG_CONFIG_HOME:-$HOME/.config}/lynx/lynx.lss"
 export LIBVIRT_DEFAULT_URI="qemu:///system"
-export QT_QPA_PLATFORMTHEME="qt5gtk2"
+export QT_QPA_PLATFORMTHEME="gtk3"
 export QT_AUTO_SCREEN_SCALE_FACTOR=0
 export JDK_JAVA_OPTIONS="-Dawt.useSystemAAFontSettings=on -Dswing.aatext=true -Dswing.defaultlaf=com.sun.java.swing.plaf.gtk.GTKLookAndFeel"
 
