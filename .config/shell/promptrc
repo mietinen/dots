@@ -1,44 +1,40 @@
 #!/usr/bin/env bash
+# shellcheck disable=SC2034
 
 # ------------------------------------------------------------------------------
 # Set colorful PS1
 # ------------------------------------------------------------------------------
 __ps1() {
-    # default colors
-    if test -n "${ZSH_VERSION}"; then
-        local cr="%B%F{red}" cg="%B%F{green}" cy="%B%F{yellow}"
-        local cb="%B%F{blue}" cm="%B%F{magenta}" cc="%B%F{cyan}"
-        local cw="%B%F{white}" reset="%f%b"
-        local u='%n' h='%m' w='%~' p='%#'
+    # colors, prompting
+    if [ -z "${ZSH_VERSION}" ]; then
+        # bash
+        local cr='\[\e[31m\]' cg='\[\e[32m\]' cy='\[\e[33m\]'
+        local cb='\[\e[34m\]' cm='\[\e[35m\]' cc='\[\e[36m\]'
+        local cw='\[\e[37m\]' reset='\[\e[0m\]' bold='\[\e[1m\]'
+        local u='\u' h='\h' w='\w' W='\W' p='\$'
     else
-        local cr='\[\e[01;31m\]' cg='\[\e[01;32m\]' cy='\[\e[01;33m\]'
-        local cb='\[\e[01;34m\]' cm='\[\e[01;35m\]' cc='\[\e[01;36m\]'
-        local cw='\[\e[01;37m\]' reset='\[\e[0m\]'
-        local u='\u' h='\h' w='\w' p='\$'
+        # zsh
+        local cr='%F{red}' cg='%F{green}' cy='%F{yellow}'
+        local cb='%F{blue}' cm='%F{magenta}' cc='%F{cyan}'
+        local cw='%F{white}' reset='%f%b' bold='%B'
+        local u='%n' h='%m' w='%~' W='%1~' p='%#'
     fi
-    # main color (blue)
-    local c="$cb"
-    # root/user
-    if [ $EUID -eq 0 ]; then
-        local user="$cr$u$c"
-        local prompt="$cr$p$c"
-    else
-        local user="$cg$u$c"
-        local prompt="$cg$p$c"
-    fi
-    # ssh/local hostname
-    if [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ] || [ -n "$SSH_CONNECTION" ]; then
-        local host="$cy$h$c"
-    else
-        local host="$cg$h$c"
-    fi
-    # path
-    local path="$cc$w$c"
+
+    local c="$cb"   # main color: blue
+    local cu="$cg"  # user color: green
+    local ch="$cg"  # host color: green
+
+    # different user color (root) and host color (remote/ssh)
+    [ $EUID -eq 0 ] && cu="$cr" # user color: red
+    [ -n "${SSH_CLIENT}${SSH_TTY}${SSH_CONNECTION}" ] && ch="$cy" # host color: yellow
+
     # git
-    local git="$cm\$(git branch --show-current 2>/dev/null | sed 's/\(.*\)/ (\1)/')$c"
+    local git="\$(git branch --show-current 2>/dev/null | sed 's/\(.*\)/ (\1)/')"
+
     # PS1
-    echo "$c┌[$user@$host $path$git]"
-    echo "$c└─$prompt $reset"
+    echo "$bold$c┌[$cu$u$c@$ch$h $cc$w$cm$git$c]"
+    echo "$bold$c└─$cu$p $reset"
+    # echo "$bold${c}[$cu$u$c@$ch$h $cc$W$c]$cu$p$c $reset"
 }
 
 PS1="$(__ps1)"
