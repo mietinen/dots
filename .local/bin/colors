@@ -1,37 +1,39 @@
 #!/usr/bin/env bash
 
+# https://en.wikipedia.org/wiki/ANSI_escape_code#Select_Graphic_Rendition_parameters
+
+# \e[BOLD;FOREGROUND;BACKGROUNDm
+# \e[{0,1};{{30..37},{90..97}};{{40..47},{100..107}}m
 colors_big() {
-    printf "%-5s" ""
-    printf " %-4s" {40..47} "NA"
+    printf "%3s  " 40 100 41 101 42 102 43 103 44 104 45 105 46 106 47 107 NA
     echo
-    for fg in {30..37}; do
-        num="$((fg - 30))"
-        for bold in {0..1}; do
-            if [ "$bold" = "0" ] ; then
-                printf "  %s " "$fg"
-                xrdbcolor="$num"
-            else
-                printf "%s;%s " "$bold" "$fg"
-                xrdbcolor="$((num + 8))"
-            fi
-            for bg in {40..47}; do
-                printf "\e[%s;%s;%sm %02d \e[0m " "$bold" "$fg" "$bg" "$xrdbcolor"
+    for fg in {0..7}; do
+        for base in {30,90}; do 
+            for bold in {0,1}; do
+                for bg in {0..7}; do
+                    printf "\e[%d;%d;%dm%d;%02d\e[0m " "$bold" "$((fg+base))" "$((bg+40))" "$bold" "$((fg+base))"
+                    printf "\e[%d;%d;%dm%d;%02d\e[0m " "$bold" "$((fg+base))" "$((bg+100))" "$bold" "$((fg+base))"
+                done
+                printf "\e[%d;%dm%d;%02d\e[0m" "$bold" "$((fg+base))" "$bold" "$((fg+base))"
+                echo
             done
-            printf "\e[%s;%sm %02d \e[0m" "$bold" "$fg" "$xrdbcolor"
-            echo
         done
     done
 }
 
+
+# Foreground: \e[38;5;{0..15}m
+# Background: \e[48;5;{0..15}m
 colors_small() {
     printf " %-4s" "" "BLK" "RED" "GRN" "YEL" "BLU" "MGN" "CYN" "WHT"
     echo
+
     printf "norm "
     for col in {0..7}; do
-        printf '\e[3%dm\e[4%dm %02d  \e[0m' "$col" "$col" "$col"
-
+        printf '\e[38;5;%dm\e[48;5;%dm %02d  \e[0m' "$col" "$col" "$col"
     done
     echo
+
     printf "brgt "
     for col in {8..15}; do
         printf '\e[38;5;%dm\e[48;5;%dm %02d  \e[0m' "$col" "$col" "$col"
