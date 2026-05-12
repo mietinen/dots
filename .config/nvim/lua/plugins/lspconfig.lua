@@ -48,7 +48,7 @@ return {
                     },
                     workspace = {
                         -- library = vim.api.nvim_get_runtime_file('', true),
-                        library = { vim.env.VIMRUNTIME },
+                        library = { vim.env.VIMRUNTIME, "/usr/share/hypr/stubs" },
                         checkThirdParty = false
                     },
                 },
