@@ -1,9 +1,6 @@
 -- -----------------------------------------------------------------------------
 -- Settings
 -- -----------------------------------------------------------------------------
-vim.cmd.syntax('on')
-vim.opt.encoding = 'utf-8'
-vim.opt.mouse = 'niv'
 vim.opt.clipboard:append 'unnamedplus'
 vim.opt.scrolloff = 5
 vim.opt.hidden = true
@@ -24,6 +21,8 @@ vim.opt.wrap = false
 vim.opt.sidescroll = 1
 vim.opt.scrolloff = 7
 vim.opt.spelllang = 'en,nb'
+vim.opt.formatoptions:remove "o"
+vim.opt.foldmethod = "manual"
 vim.opt.colorcolumn = '80,110'
 vim.opt.listchars = 'tab:| ,extends:>,precedes:<,trail:+,nbsp:~'
 vim.opt.laststatus = 2
@@ -62,16 +61,21 @@ vim.api.nvim_create_autocmd('FileType', {
     callback = function(args)
         local m = args.match
         if m == 'markdown' then
-            vim.cmd.setlocal('wrap linebreak spell')
+            vim.opt_local.wrap = true
+            vim.opt_local.linebreak = true
+            vim.opt_local.spell = true
             vim.b.current_syntax = nil
             vim.cmd.syntax('include @markdownTomlTop syntax/toml.vim')
             vim.cmd.syntax('region markdownTomlHead start=/\\%^+++$/ end=/^+++$/ keepend contains=@markdownTomlTop')
-        elseif m == 'text' then vim.cmd.setlocal('wrap linebreak spell')
-        elseif m == 'php' then vim.cmd.setlocal('commentstring=// %s')
-        elseif m == 'xdefaults' then vim.cmd.setlocal('commentstring=! %s')
-        elseif m == 'htmldjango' then vim.cmd.setlocal('commentstring={# %s #}')
+        elseif m == 'text' then
+            vim.opt_local.wrap = true
+            vim.opt_local.linebreak = true
+            vim.opt_local.spell = true
+        elseif m == 'php' then vim.opt_local.commentstring = '// %s'
+        elseif m == 'xdefaults' then vim.opt_local.commentstring = '! %s'
+        elseif m == 'htmldjango' then vim.opt_local.commentstring = '{# %s #}'
         end
-        vim.cmd.set('formatoptions-=o foldmethod=manual')
+        vim.opt.formatoptions:remove "o"
     end
 })
 
