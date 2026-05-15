@@ -12,7 +12,7 @@ case "$ROFI_RETV" in
     1) # Selected an entry
         case "$*" in
             "Lock screen") coproc { loginctl lock-session; } ;;
-            "Exit/logout") coproc { hyprctl dispatch exit >/dev/null 2>&1; } ;;
+            "Exit/logout") coproc { hyprctl dispatch 'hl.dsp.exit()' >/dev/null 2>&1; } ;;
             "Suspend") coproc { systemctl suspend; } ;;
             "Reboot") coproc { systemctl reboot; } ;;
             "Shutdown") coproc { systemctl poweroff -i; } ;;
