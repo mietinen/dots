@@ -133,8 +133,8 @@ hl.config({
 -- https://wiki.hypr.land/Configuring/Basics/Variables/#ecosystem
 hl.config({
   ecosystem = {
-    no_update_news = false,
-    no_donation_nag = false
+    no_update_news = true,
+    no_donation_nag = true
   },
 })
 
@@ -259,10 +259,12 @@ for dir, keys in pairs(vim_keys) do
         hl.bind(mainMod .. " + SHIFT + " .. key, hl.dsp.window.move({ direction = dir }))
         -- Resize focused window with mainMod+CTRL + VIM/arrow
         local dx, yx = 0, 0
-        if dir == "left" then dx = math.floor(hl.get_active_monitor().width * -0.05) end
-        if dir == "right" then dx = math.floor(hl.get_active_monitor().width * 0.05) end
-        if dir == "up" then dy = math.floor(hl.get_active_monitor().height * -0.05) end
-        if dir == "down" then dy = math.floor(hl.get_active_monitor().height * 0.05) end
+        local width = (hl.get_active_monitor() or {}).width or 1920
+        local height = (hl.get_active_monitor() or {}).height or 1080
+        if dir == "left" then dx = math.floor(width * -0.05) end
+        if dir == "right" then dx = math.floor(width * 0.05) end
+        if dir == "up" then dy = math.floor(height * -0.05) end
+        if dir == "down" then dy = math.floor(height * 0.05) end
         hl.bind(mainMod .. " + CTRL + " .. key, hl.dsp.window.resize({ x = dx, y = yx, relative = true }))
     end
 end
