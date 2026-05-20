@@ -30,7 +30,6 @@ hl.on("hyprland.start", function ()
 end)
 
 
-
 -- -----------------------------------------------------------------------------
 -- Environment variables
 -- See https://wiki.hypr.land/Configuring/Advanced-and-Cool/Environment-variables/
