@@ -294,7 +294,7 @@ hl.window_rule({ center = true, match = { float = true } }) -- center floating w
 -- Floating
 hl.window_rule({ float = true, match = { class = "qalculate-gtk" } })
 hl.window_rule({ float = true, match = { class = "blueman-manager" } })
-hl.window_rule({ float = true, match = { class = ".*%.pavucontrol" } })
+hl.window_rule({ float = true, match = { class = ".*\\.pavucontrol" } })
 hl.window_rule({ float = true, match = { class = "nm-connection-editor" } })
 hl.window_rule({ float = true, match = { class = "wev" } })
 hl.window_rule({ float = true, match = { class = "xdg-desktop-portal-gtk" } })
