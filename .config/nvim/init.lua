@@ -20,13 +20,13 @@ vim.opt.smartcase = true
 vim.opt.wrap = false
 vim.opt.sidescroll = 1
 vim.opt.scrolloff = 7
-vim.opt.spelllang = 'en,nb'
+vim.opt.spelllang = { 'en', 'nb' }
 vim.opt.formatoptions:remove "o"
 vim.opt.foldmethod = "manual"
-vim.opt.colorcolumn = '80,110'
-vim.opt.listchars = 'tab:| ,extends:>,precedes:<,trail:+,nbsp:~'
+vim.opt.colorcolumn = { 80, 110 }
+vim.opt.listchars = { tab = '| ', extends = '>', precedes = '<', trail = '+', nbsp = '~' }
 vim.opt.laststatus = 2
-vim.opt.completeopt = 'menu,menuone,noselect'
+vim.opt.completeopt = { "menu", "menuone", "noselect" }
 vim.opt.background = 'dark'
 vim.g.mapleader = ' '
 vim.g.netrw_banner = 0
@@ -40,18 +40,29 @@ vim.g.markdown_fenced_languages = {
 }
 
 -- -----------------------------------------------------------------------------
+-- Toggle opt function
+-- -----------------------------------------------------------------------------
+local function toggle_opt(opt)
+  vim.opt_local[opt] = not vim.opt_local[opt]:get()
+  vim.notify(("Toggled %s: %s"):format(opt, vim.opt_local[opt]:get() and "ON" or "OFF"))
+end
+
+-- -----------------------------------------------------------------------------
 -- Mappings
 -- -----------------------------------------------------------------------------
 vim.keymap.set('n', '<leader>e', ':Lexplore<CR>', {silent = true})
 vim.keymap.set('n', '<leader><CR>', ':source $MYVIMRC <bar> echo "Reloaded ".fnamemodify($MYVIMRC, ":t")<CR>', {silent = true})
 vim.keymap.set('n', '<leader>w', [[:%s/\s\+$//e<CR>]], {silent = true})
-vim.keymap.set('n', '<leader>l', ':set list!<CR>', {silent = true})
 vim.keymap.set('n', '<leader>r', ':!<C-r>=expand("%:p")<CR> ')
 vim.keymap.set('n', '<leader>s', [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
 vim.keymap.set('v', '<leader>s', [["hy:%s/<C-r>=escape(@h,'/\:')<CR>/<C-r>=escape(@h,'/\:')<CR>/gI<left><left><left>]])
 vim.keymap.set('v', '<leader>p', '"_dP')
 vim.keymap.set('v', 'J', ":m '>+1<CR>gv=gv")
 vim.keymap.set('v', 'K', ":m '<-2<CR>gv=gv")
+vim.keymap.set('n', '<leader>tc', function() toggle_opt('cursorline') end)
+vim.keymap.set('n', '<leader>tl', function() toggle_opt('list') end)
+vim.keymap.set('n', '<leader>ts', function() toggle_opt('spell') end)
+vim.keymap.set('n', '<leader>tw', function() toggle_opt('wrap') end)
 
 -- -----------------------------------------------------------------------------
 -- Autocmd
