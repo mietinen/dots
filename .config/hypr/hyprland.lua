@@ -14,15 +14,35 @@ hl.monitor({
 -- Autostart
 -- See https://wiki.hypr.land/Configuring/Basics/Autostart/
 -- -----------------------------------------------------------------------------
+-- Execute if not already running
+local function exec_once(arg)
+    local cmd = arg:match("(%w+)(.*)")
+    hl.exec_cmd([[
+    pgrep -fu "$(whoami)" "^]]..cmd..[[" && exit 1
+    command -v "]]..cmd..[[" || exit 1
+    exec ]]..arg)
+end
+
+-- Kill process and execute
+local function exec_kill(arg)
+    local cmd = arg:match("(%w+)(.*)")
+    hl.exec_cmd([[
+    pkill -fu "$(whoami)" "^]]..cmd..[["
+    pidwait -fu "$(whoami)" "^]]..cmd..[["
+    command -v "]]..cmd..[[" || exit 1
+    exec ]]..arg)
+end
+
+
 hl.on("hyprland.start", function ()
-    hl.exec_cmd("runonce -k /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1")
-    hl.exec_cmd("runonce -k waybar")
-    hl.exec_cmd("runonce -k hyprpaper")
-    hl.exec_cmd("runonce -k hypridle")
-    hl.exec_cmd("runonce -k mako")
-    hl.exec_cmd("runonce mpd")
-    hl.exec_cmd("runonce syncthing --no-browser")
-    hl.exec_cmd("runonce gioautomount")
+    exec_kill("/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1")
+    exec_kill("waybar")
+    exec_kill("hyprpaper")
+    exec_kill("hypridle")
+    exec_kill("mako")
+    exec_once("mpd")
+    exec_once("syncthing --no-browser")
+    exec_once("gioautomount")
     hl.exec_cmd("gsettings set org.gnome.desktop.interface gtk-theme Gruvbox-Material-Dark")
     hl.exec_cmd("gsettings set org.gnome.desktop.interface icon-theme Gruvbox-Material-Dark")
     hl.exec_cmd("gsettings set org.gnome.desktop.interface color-scheme prefer-dark")
