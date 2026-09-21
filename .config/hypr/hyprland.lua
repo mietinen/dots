@@ -15,7 +15,7 @@ hl.monitor({
 -- See https://wiki.hypr.land/Configuring/Basics/Autostart/
 -- -----------------------------------------------------------------------------
 -- Execute if not already running
-local function exec_once(arg)
+function exec_once(arg)
     local cmd = arg:match("(%w+)(.*)")
     hl.exec_cmd([[
     pgrep -fu "$(whoami)" "^]]..cmd..[[" && exit 1
@@ -24,7 +24,7 @@ local function exec_once(arg)
 end
 
 -- Kill process and execute
-local function exec_kill(arg)
+function exec_kill(arg)
     local cmd = arg:match("(%w+)(.*)")
     hl.exec_cmd([[
     pkill -fu "$(whoami)" "^]]..cmd..[["
@@ -62,7 +62,7 @@ hl.env("XDG_SESSION_DESKTOP", "Hyprland")
 
 -- -----------------------------------------------------------------------------
 -- Look and feel
--- Refer to https://wiki.hypr.land/Configuring/Basics/Variables/
+-- See https://wiki.hypr.land/Configuring/Basics/Variables/
 -- -----------------------------------------------------------------------------
 hl.config({
     general = {
@@ -91,7 +91,7 @@ hl.config({
             enabled = false,
             range = 4,
             render_power = 3,
-            color = 0xee1a1a1a,
+            color = "0xee1a1a1a",
         },
 
         blur = {
@@ -107,29 +107,31 @@ hl.config({
     },
 })
 
--- Default curves and animations, see https://wiki.hypr.land/Configuring/Advanced-and-Cool/Animations/
+
+-- -----------------------------------------------------------------------------
+-- Animations
+-- See https://wiki.hypr.land/Configuring/Advanced-and-Cool/Animations/
+-- -----------------------------------------------------------------------------
 hl.curve("myBezier", { type = "bezier", points = { {0.05, 0.9}, {0.1, 1.05} } })
 
 hl.animation({ leaf = "global", enabled = true, speed = 3, bezier = "myBezier" })
 hl.animation({ leaf = "workspaces", enabled = true, speed = 1, bezier = "myBezier" })
 
--- See https://wiki.hypr.land/Configuring/Layouts/Dwindle-Layout/ for more
+
+-- -----------------------------------------------------------------------------
+-- Layouts
+-- See https://wiki.hypr.land/Configuring/Layouts/
+-- -----------------------------------------------------------------------------
 hl.config({
-    dwindle = {
+    dwindle = { -- https://wiki.hypr.land/Configuring/Layouts/Dwindle-Layout/
         preserve_split = true, -- You probably want this
     },
-})
 
--- See https://wiki.hypr.land/Configuring/Layouts/Master-Layout/ for more
-hl.config({
-    master = {
+    master = { -- https://wiki.hypr.land/Configuring/Layouts/Master-Layout/
         new_status = "slave",
     },
-})
 
--- See https://wiki.hypr.land/Configuring/Layouts/Scrolling-Layout/ for more
-hl.config({
-    scrolling = {
+    scrolling = { -- https://wiki.hypr.land/Configuring/Layouts/Scrolling-Layout/
         fullscreen_on_one_column = true,
         column_width = 0.9,
         focus_fit_method = 0,
@@ -139,21 +141,17 @@ hl.config({
 -- -----------------------------------------------------------------------------
 -- Misc
 -- -----------------------------------------------------------------------------
-
 hl.config({
     misc = {
         force_default_wallpaper = -1, -- Set to 0 or 1 to disable the anime mascot wallpapers
         disable_hyprland_logo = true, -- If true disables the random hyprland logo / anime girl background. :(
         enable_anr_dialog = false,
     },
-})
 
--- https://wiki.hypr.land/Configuring/Basics/Variables/#ecosystem
-hl.config({
-  ecosystem = {
-    no_update_news = true,
-    no_donation_nag = true
-  },
+    ecosystem = { -- https://wiki.hypr.land/configuring/basics/variables/#ecosystem
+        no_update_news = true,
+        no_donation_nag = true
+    },
 })
 
 -- -----------------------------------------------------------------------------
@@ -193,7 +191,7 @@ hl.device({
 -- See https://wiki.hypr.land/Configuring/Basics/Binds/ for more
 -- -----------------------------------------------------------------------------
 
-local mainMod = "SUPER" -- Sets "Windows" key as main modifier
+mainMod = "SUPER" -- Sets "Windows" key as main modifier
 
 hl.bind(mainMod .. " + Return", hl.dsp.exec_cmd("sensible-terminal"))
 hl.bind(mainMod .. " + SHIFT + Return", hl.dsp.workspace.toggle_special("terminal"))
@@ -227,6 +225,11 @@ hl.bind(mainMod .. " + X", hl.dsp.exec_cmd("rofi -show emoji"))
 hl.bind(mainMod .. " + SHIFT + M", hl.dsp.exec_cmd("rofi -show man"))
 hl.bind(mainMod .. " + Delete", hl.dsp.exec_cmd("rofi -show exit"))
 
+-- Screenshot
+hl.bind("Print", hl.dsp.exec_cmd("grimcopy"))
+hl.bind("SHIFT + Print", hl.dsp.exec_cmd("grimcopy select"))
+hl.bind("XF86SelectiveScreenshot", hl.dsp.exec_cmd("grimcopy select"))
+
 -- XF86
 hl.bind("XF86AudioRaiseVolume", hl.dsp.exec_cmd("volumectl up"))
 hl.bind("XF86AudioLowerVolume", hl.dsp.exec_cmd("volumectl down"))
@@ -238,8 +241,6 @@ hl.bind("XF86AudioPrev", hl.dsp.exec_cmd("rmpc prev"))
 hl.bind("XF86AudioNext", hl.dsp.exec_cmd("rmpc next"))
 hl.bind("XF86MonBrightnessUp", hl.dsp.exec_cmd("brightnessctl set +10%"))
 hl.bind("XF86MonBrightnessDown", hl.dsp.exec_cmd("brightnessctl set 10%-"))
-hl.bind("Print", hl.dsp.exec_cmd("grimcopy"))
-hl.bind("XF86Launch2", hl.dsp.exec_cmd("grimcopy select"))
 
 -- MPD
 hl.bind(mainMod .. " + M", hl.dsp.submap("mpd"))
@@ -347,3 +348,9 @@ hl.window_rule({ workspace = "9", match = { class = "telegram-desktop" } })
 
 hl.workspace_rule({ workspace = "4", layout = "scrolling" })
 hl.workspace_rule({ workspace = "special:terminal", on_created_empty = "[float]sensible-terminal" })
+
+
+-- -----------------------------------------------------------------------------
+-- Extra stuff for testing
+-- -----------------------------------------------------------------------------
+pcall(require, 'hyprtest')
