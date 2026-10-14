@@ -14,7 +14,7 @@
         "hyprland/window"
     ],
     "modules-right": [
-        "mpd",
+        "mpris",
         "wireplumber",
         "network",
         "cpu",
@@ -145,33 +145,18 @@
         "on-scroll-up": "volumectl up",
         "on-scroll-down": "volumectl down"
     },
-    "mpd": {
-        "format": "{stateIcon} {volume}% ",
-        "format-disconnected": "Disconnected ",
-        "format-stopped": " - ",
-        "unknown-tag": "N/A",
-        "interval": 5,
-        "smooth-scrolling-threshold": 2,
-        "on-click": "rmpc togglepause",
-        "on-scroll-up": "rmpc volume +5",
-        "on-scroll-down": "rmpc volume -5",
-        "consume-icons": {
-            "on": " "
+    "mpris": {
+        "format": "{player_icon} : {status_icon}",
+        "player-icons": {
+            "default": "",
+            "spotify": "",
+            "firefox": "",
+            "mpv": ""
         },
-        "random-icons": {
-            "on": " "
-        },
-        "repeat-icons": {
-            "on": " "
-        },
-        "single-icons": {
-            "on": "1 "
-        },
-        "state-icons": {
+        "status-icons": {
+            "playing": "",
             "paused": "",
-            "playing": ""
-        },
-        "tooltip-format": "{consumeIcon}{randomIcon}{repeatIcon}{singleIcon}{artist} - {album} - {title} ({elapsedTime:%M:%S}/{totalTime:%M:%S}) ⸨{songPosition}|{queueLength}⸩",
-        "tooltip-format-disconnected": "MPD disconnected"
+            "stopped": ""
+        }
     }
 }
